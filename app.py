@@ -84,9 +84,15 @@ def index():
     cursor.execute("SELECT * FROM Books WHERE is_archived = TRUE ORDER BY id DESC")
     archived_books = cursor.fetchall()
 
+    # Check if we are on Render (Postgres) or Local (MySQL)
+if os.environ.get('DATABASE_URL'):
+    # Postgres syntax for Render
+    cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURRENT_DATE")
+else:
+    # MySQL syntax for your Laptop
     cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURDATE()")
-    issued_count = cursor.fetchone()[0]
-     
+
+issued_count = cursor.fetchone()[0]
     cursor.close()
     conn.close()
 
