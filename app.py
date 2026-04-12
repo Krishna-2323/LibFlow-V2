@@ -45,7 +45,7 @@ def init_db():
 init_db()
 
 @app.route('/delete/<int:id>')
-def permanent_delete(id):
+def permanent_delete(id): # <--- This name is what Flask looks for
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
