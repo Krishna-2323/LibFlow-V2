@@ -53,48 +53,60 @@ init_db()
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    # Get the selected category from the URL
     selected_cat = request.args.get('cat', 'All') 
     per_page = 6
     offset = (page - 1) * per_page
 
+    # Initialize variables outside the try block
+    active_books = []
+    archived_books = []
+    total_active = 0
+    issued_count = 0
+    total_pages = 1
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    # Logic to filter by category
-    if selected_cat == 'All':
-        query = "SELECT * FROM Books WHERE is_archived = FALSE ORDER BY id ASC LIMIT %s OFFSET %s"
-        params = (per_page, offset)
-        count_query = "SELECT COUNT(*) FROM Books WHERE is_archived = FALSE"
-        count_params = ()
-    else:
-        # Matches Hindi, School, or BCA categories
-        query = "SELECT * FROM Books WHERE is_archived = FALSE AND category LIKE %s ORDER BY id ASC LIMIT %s OFFSET %s"
-        params = (f"%{selected_cat}%", per_page, offset)
-        count_query = "SELECT COUNT(*) FROM Books WHERE is_archived = FALSE AND category LIKE %s"
-        count_params = (f"%{selected_cat}%",)
+    try:
+        # 1. Logic to filter by category
+        if selected_cat == 'All':
+            query = "SELECT * FROM Books WHERE is_archived = FALSE ORDER BY id ASC LIMIT %s OFFSET %s"
+            params = (per_page, offset)
+            count_query = "SELECT COUNT(*) FROM Books WHERE is_archived = FALSE"
+            count_params = ()
+        else:
+            query = "SELECT * FROM Books WHERE is_archived = FALSE AND category LIKE %s ORDER BY id ASC LIMIT %s OFFSET %s"
+            params = (f"%{selected_cat}%", per_page, offset)
+            count_query = "SELECT COUNT(*) FROM Books WHERE is_archived = FALSE AND category LIKE %s"
+            count_params = (f"%{selected_cat}%",)
 
-    cursor.execute(query, params)
-    active_books = cursor.fetchall()
+        cursor.execute(query, params)
+        active_books = cursor.fetchall()
 
-    cursor.execute(count_query, count_params)
-    total_active = cursor.fetchone()[0]
-    total_pages = (total_active + per_page - 1) // per_page if total_active > 0 else 1
+        cursor.execute(count_query, count_params)
+        total_active = cursor.fetchone()[0]
+        total_pages = (total_active + per_page - 1) // per_page if total_active > 0 else 1
 
-    cursor.execute("SELECT * FROM Books WHERE is_archived = TRUE ORDER BY id DESC")
-    archived_books = cursor.fetchall()
+        cursor.execute("SELECT * FROM Books WHERE is_archived = TRUE ORDER BY id DESC")
+        archived_books = cursor.fetchall()
 
-    # Check if we are on Render (Postgres) or Local (MySQL)
-# Ensure all these lines are aligned at the same level
-    if os.environ.get('DATABASE_URL'):
-        cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURRENT_DATE")
-    else:
-        cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURDATE()")
+        # 2. Date handling for Render vs Local
+        if os.environ.get('DATABASE_URL'):
+            cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURRENT_DATE")
+        else:
+            cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURDATE()")
 
-    issued_count = cursor.fetchone()[0]
+        issued_count = cursor.fetchone()[0]
 
-    cursor.close()  # <-- Line 96: Make sure this isn't pushed too far right!
-    conn.close()
+    except Exception as e:
+        print(f"Database Error: {e}")
+        # You can add a message here to show on the UI if you want
+    
+    finally:
+        # THIS IS THE KEY: It runs even if the code above fails
+        cursor.close()
+        conn.close()
+
     return render_template('index.html', 
                            books=active_books, 
                            archived=archived_books, 
@@ -103,7 +115,6 @@ def index():
                            total_pages=total_pages, 
                            current_cat=selected_cat,
                            issued_today=issued_count)
-
 @app.route('/add', methods=['POST'])
 def add_book():
     title, author, cat = request.form.get('title'), request.form.get('author'), request.form.get('category')
