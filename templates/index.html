@@ -329,7 +329,7 @@
                             <tr>
                                 <td>#BK-{{ book[0] }}</td>
                                 <td><del>{{ book[1] }}</del></td>
-                                <td><a href="{{ url_for('restore_book', id=book[0]) }}" style="color: var(--accent-sage); font-weight: 800; text-decoration: none;">Restore ↺</a></td>
+                                <td><a href="{{ url_for('restore_book', id=book[0]) }}">Restore ↺</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>
