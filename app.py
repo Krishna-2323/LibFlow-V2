@@ -1,29 +1,25 @@
 import os
-import psycopg2 # For Render
-import mysql.connector # For your Laptop (XAMPP)
+import psycopg2 
+import mysql.connector 
 from flask import Flask, render_template, request, redirect, url_for
+
 app = Flask(__name__)
+
 def get_db_connection():
-    # If we are on Render, use the Database URL they provide
-    # If we are on your laptop, use the Localhost settings
     db_url = os.environ.get('DATABASE_URL') 
-    
     if db_url:
-        # This is for the LIVE website
         return psycopg2.connect(db_url)
     else:
-        # This is for your LOCAL testing (XAMPP)
         return mysql.connector.connect(
             host="127.0.0.1",
             user="root",
             password="",
             database="library_db"
         )
-    # ADD THIS BLOCK TO CREATE TABLES AUTOMATICALLY
+
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-    # Create Books table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Books (
             id SERIAL PRIMARY KEY,
@@ -33,7 +29,6 @@ def init_db():
             is_archived BOOLEAN DEFAULT FALSE
         );
     """)
-    # Create Issued_Books table
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS Issued_Books (
             id SERIAL PRIMARY KEY,
@@ -47,7 +42,6 @@ def init_db():
     cursor.close()
     conn.close()
 
-# RUN THE INITIALIZATION
 init_db()
 
 @app.route('/')
@@ -57,18 +51,13 @@ def index():
     per_page = 6
     offset = (page - 1) * per_page
 
-    # Initialize variables outside the try block
-    active_books = []
-    archived_books = []
-    total_active = 0
-    issued_count = 0
-    total_pages = 1
+    active_books, archived_books = [], []
+    total_active, issued_count, total_pages = 0, 0, 1
 
     conn = get_db_connection()
     cursor = conn.cursor()
 
     try:
-        # 1. Logic to filter by category
         if selected_cat == 'All':
             query = "SELECT * FROM Books WHERE is_archived = FALSE ORDER BY id ASC LIMIT %s OFFSET %s"
             params = (per_page, offset)
@@ -82,7 +71,6 @@ def index():
 
         cursor.execute(query, params)
         active_books = cursor.fetchall()
-
         cursor.execute(count_query, count_params)
         total_active = cursor.fetchone()[0]
         total_pages = (total_active + per_page - 1) // per_page if total_active > 0 else 1
@@ -90,62 +78,68 @@ def index():
         cursor.execute("SELECT * FROM Books WHERE is_archived = TRUE ORDER BY id DESC")
         archived_books = cursor.fetchall()
 
-        # 2. Date handling for Render vs Local
         if os.environ.get('DATABASE_URL'):
             cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURRENT_DATE")
         else:
             cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURDATE()")
-
         issued_count = cursor.fetchone()[0]
 
-    except Exception as e:
-        print(f"Database Error: {e}")
-        # You can add a message here to show on the UI if you want
-    
     finally:
-        # THIS IS THE KEY: It runs even if the code above fails
         cursor.close()
         conn.close()
 
-    return render_template('index.html', 
-                           books=active_books, 
-                           archived=archived_books, 
-                           total_count=total_active, 
-                           page=page, 
-                           total_pages=total_pages, 
-                           current_cat=selected_cat,
-                           issued_today=issued_count)
+    return render_template('index.html', books=active_books, archived=archived_books, total_count=total_active, page=page, total_pages=total_pages, current_cat=selected_cat, issued_today=issued_count)
+
 @app.route('/add', methods=['POST'])
 def add_book():
     title, author, cat = request.form.get('title'), request.form.get('author'), request.form.get('category')
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Books (title, author, category, is_archived) VALUES (%s, %s, %s, FALSE)", (title, author, cat))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    try:
+        cursor.execute("INSERT INTO Books (title, author, category, is_archived) VALUES (%s, %s, %s, FALSE)", (title, author, cat))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 @app.route('/archive/<int:id>')
 def archive_book(id):
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Books SET is_archived = TRUE WHERE id = %s", (id,))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    try:
+        cursor.execute("UPDATE Books SET is_archived = TRUE WHERE id = %s", (id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('index'))
+
+# --- THIS WAS THE MISSING FUNCTION CAUSING THE ERROR ---
+@app.route('/restore/<int:id>')
+def restore_book(id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("UPDATE Books SET is_archived = FALSE WHERE id = %s", (id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
 
 @app.route('/issue', methods=['POST'])
 def issue_book():
-    book_id = request.form.get('book_id')
-    member = request.form.get('member_name')
-    
+    book_id, member = request.form.get('book_id'), request.form.get('member_name')
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO Issued_Books (book_id, member_name) VALUES (%s, %s)", (book_id, member))
-    conn.commit()
-    cursor.close()
-    conn.close()
+    try:
+        cursor.execute("INSERT INTO Issued_Books (book_id, member_name) VALUES (%s, %s)", (book_id, member))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
     return redirect(url_for('index'))
-if __name__ == '__main__': app.run()
+
+if __name__ == '__main__':
+    app.run()
