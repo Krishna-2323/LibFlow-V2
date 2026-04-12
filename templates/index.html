@@ -264,27 +264,24 @@ details summary:hover { background: #f3efeb !important; }
         <span>Members</span>
     </div>
 
-    <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="142">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
+<div class="stat-card">
+    <div class="stat-window">
+        <div class="stat-move" data-target="{{ issued_today }}">
+            <h3>0</h3>
+            <h3 class="counting-number">0</h3>
         </div>
-        <span>Issued Today</span>
     </div>
-
-    <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="12">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
-        </div>
-        <span>Overdue</span>
-    </div>
+    <span>Issued Today</span>
 </div>
 
+<div class="stat-card">
+    <div class="stat-window">
+        <div class="stat-move" data-target="{{ total_count }}">
+            <h3>0</h3>
+            <h3 class="counting-number">0</h3>
+        </div>
+    </div>
+    <span>Total Inventory</span> </div>
 <div class="main-container">
     <div class="sidebar">
         <div class="card">
@@ -444,11 +441,11 @@ details summary:hover { background: #f3efeb !important; }
     </details>
 </div>
 
-
-<footer style="text-align: center; padding-bottom: 40px; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px;">
-    &copy; 2026 LibFlow LMS | CCSU BCA Final Year Project
+<div class="archive-vault">
+    <h3>Archive Vault</h3>
+    <footer style="text-align: center; margin-top: 50px;">
+    © 2026 LibFlow LMS | CCSU BCA Final Year Project
 </footer>
-
 <script>
     window.addEventListener('load', () => {
         const movers = document.querySelectorAll('.stat-move');
