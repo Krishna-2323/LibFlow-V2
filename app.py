@@ -20,42 +20,32 @@ def get_db_connection():
 def init_db():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS Books (
-            id SERIAL PRIMARY KEY,
-            title VARCHAR(255) NOT NULL,
-            author VARCHAR(255) NOT NULL,
-            category VARCHAR(100),
-            is_archived BOOLEAN DEFAULT FALSE
-        );
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS Issued_Books (
-            id SERIAL PRIMARY KEY,
-            book_id INT,
-            member_name VARCHAR(255),
-            issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (book_id) REFERENCES Books(id)
-        );
-    """)
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-init_db()
-
-@app.route('/delete/<int:id>')
-def permanent_delete(id): # <--- This name is what Flask looks for
-    conn = get_db_connection()
-    cursor = conn.cursor()
     try:
-        cursor.execute("DELETE FROM Books WHERE id = %s", (id,))
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Books (
+                id SERIAL PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                author VARCHAR(255) NOT NULL,
+                category VARCHAR(100),
+                is_archived BOOLEAN DEFAULT FALSE
+            );
+        """)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Issued_Books (
+                id SERIAL PRIMARY KEY,
+                book_id INT,
+                member_name VARCHAR(255),
+                issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (book_id) REFERENCES Books(id)
+            );
+        """)
         conn.commit()
     finally:
         cursor.close()
         conn.close()
-    return redirect(url_for('index'))
-    
+
+init_db()
+
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
@@ -104,7 +94,9 @@ def index():
 
 @app.route('/add', methods=['POST'])
 def add_book():
-    title, author, cat = request.form.get('title'), request.form.get('author'), request.form.get('category')
+    title = request.form.get('title')
+    author = request.form.get('author')
+    cat = request.form.get('category')
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
@@ -127,7 +119,6 @@ def archive_book(id):
         conn.close()
     return redirect(url_for('index'))
 
-# --- THIS WAS THE MISSING FUNCTION CAUSING THE ERROR ---
 @app.route('/restore/<int:id>')
 def restore_book(id):
     conn = get_db_connection()
@@ -140,18 +131,22 @@ def restore_book(id):
         conn.close()
     return redirect(url_for('index'))
 
-@app.route('/issue', methods=['POST'])
-def issue_book():
-    book_id, member = request.form.get('book_id'), request.form.get('member_name')
+@app.route('/delete/<int:id>')
+def permanent_delete(id):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("INSERT INTO Issued_Books (book_id, member_name) VALUES (%s, %s)", (book_id, member))
+        cursor.execute("DELETE FROM Books WHERE id = %s", (id,))
         conn.commit()
     finally:
         cursor.close()
         conn.close()
     return redirect(url_for('index'))
+
+@app.route('/search', methods=['POST'])
+def search():
+    query = request.form.get('search_query')
+    return redirect(url_for('index', cat=query))
 
 if __name__ == '__main__':
     app.run()
