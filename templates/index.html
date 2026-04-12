@@ -48,17 +48,28 @@
         .premium-badge {
             display: inline-flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 10px 20px;
-            border-radius: 100px;
-            border: 1px solid var(--accent-sage);
-            margin-bottom: 15px;
-            font-size: 0.75rem;
+            padding: 8px 24px;
+            border: 1.5px solid #5f7a6b;
+            border-radius: 50px;
+            background: #eaddca;
+            color: #3e362e;
             font-weight: 800;
+            font-size: 0.75rem;
             letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
             text-transform: uppercase;
+            margin-bottom: 15px;
         }
+
+        .premium-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(95, 122, 107, 0.2);
+            background: #fff;
+        }
+
         .brand-huge {
             font-family: 'Playfair Display', serif;
             font-size: 5.5rem;
@@ -86,8 +97,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
             transition: var(--transition);
         }
-
-        .stat-card:hover { transform: translateY(-5px); }
         
         .stat-window { height: 50px; overflow: hidden; position: relative; }
         .stat-move { display: flex; flex-direction: column; transition: transform 1.5s cubic-bezier(0.33, 1, 0.68, 1); }
@@ -115,7 +124,6 @@
 
         .card h2 { font-family: 'Playfair Display', serif; margin-bottom: 20px; font-size: 1.5rem; }
 
-        /* Form Controls */
         .form-group { margin-bottom: 15px; }
         label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--accent-sage); }
         input, select {
@@ -146,82 +154,10 @@
         th { text-align: left; padding: 15px; background: #f8f6f4; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
         td { padding: 15px; border-bottom: 1px solid #f1eeeb; font-size: 0.95rem; }
         
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
-        .badge-available { background: #dcfce7; color: #166534; }
-        .badge-issued { background: #fee2e2; color: #991b1b; }
-
         .btn-delete { color: #ff4d4d; text-decoration: none; font-weight: 700; font-size: 0.8rem; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; transition: 0.3s; }
         .btn-delete:hover { background: #ff4d4d; color: white; }
 
-        footer { text-align: center; padding: 50px; color: var(--text-muted); font-size: 0.85rem; }
-        details summary::-webkit-details-marker { display: none; }
-details[open] .vault-arrow { transform: rotate(180deg); }
-details summary:hover { background: #f3efeb !important; }
-/* Makes the category tabs feel interactive */
-.card a[href*="cat="]:hover {
-    border-color: var(--accent-sage) !important;
-    background: #f4f7f5 !important;
-    color: var(--accent-sage) !important;
-}
-/* The Premium Badge Container */
-.premium-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 24px;
-    border: 1.5px solid #5f7a6b;
-    border-radius: 50px;
-    background: #eaddca;
-    color: #3e362e;
-    font-family: 'Inter', sans-serif;
-    font-weight: 800;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    position: relative;
-    overflow: hidden; /* Important for the shine */
-    transition: all 0.4s ease;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-/* The Shining Light Effect */
-.premium-badge::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-        90deg, 
-        transparent, 
-        rgba(255, 255, 255, 0.6), 
-        transparent
-    );
-    transform: skewX(-25deg);
-    transition: none;
-}
-
-/* Hover States */
-.premium-badge:hover {
-    transform: translateY(-3px); /* Lifts up slightly */
-    box-shadow: 0 10px 20px rgba(95, 122, 107, 0.2); /* Soft sage glow */
-    border-color: #5f7a6b;
-    background: #fff; /* Brightens background */
-}
-
-/* Trigger the shine on hover */
-.premium-badge:hover::after {
-    left: 150%;
-    transition: all 0.6s ease;
-}
-
-/* Make the star sparkle */
-.premium-badge span {
-    margin-right: 8px;
-    color: #5f7a6b;
-}
-
-        
+        footer { text-align: center; padding: 50px; color: var(--text-coffee); font-size: 0.85rem; font-weight: 600; opacity: 0.7; }
     </style>
 </head>
 <body>
@@ -237,8 +173,8 @@ details summary:hover { background: #f3efeb !important; }
 
 <div class="hero-header">
     <div class="premium-badge">
-    <span>✦</span> Premium Library Suite
-</div>
+        <span>✦</span> Premium Library Suite
+    </div>
     <h1 class="brand-huge">LibFlow</h1>
     <p class="tagline">Simple • Elegant • Organized</p>
 </div>
@@ -264,24 +200,27 @@ details summary:hover { background: #f3efeb !important; }
         <span>Members</span>
     </div>
 
-<div class="stat-card">
-    <div class="stat-window">
-        <div class="stat-move" data-target="{{ issued_today }}">
-            <h3>0</h3>
-            <h3 class="counting-number">0</h3>
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ issued_today }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
         </div>
+        <span>Issued Today</span>
     </div>
-    <span>Issued Today</span>
+
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ total_count }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
+        <span>Total Inventory</span>
+    </div>
 </div>
 
-<div class="stat-card">
-    <div class="stat-window">
-        <div class="stat-move" data-target="{{ total_count }}">
-            <h3>0</h3>
-            <h3 class="counting-number">0</h3>
-        </div>
-    </div>
-    <span>Total Inventory</span> </div>
 <div class="main-container">
     <div class="sidebar">
         <div class="card">
@@ -308,36 +247,36 @@ details summary:hover { background: #f3efeb !important; }
                 <button type="submit" class="btn-primary">Add to Inventory</button>
             </form>
         </div>
-<div class="card" style="background: linear-gradient(135deg, #5f7a6b, #4a5f53); color: white; padding: 20px; border: none;">
-    <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin: 0;">Issued Today</p>
-    <h2 style="font-size: 2.2rem; margin: 5px 0; color: white;">{{ issued_today }}</h2>
-    <div style="height: 3px; width: 30px; background: rgba(255,255,255,0.3); border-radius: 10px;"></div>
-</div>
+
+        <div class="card" style="background: linear-gradient(135deg, #5f7a6b, #4a5f53); color: white; padding: 25px; border: none;">
+            <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin: 0;">Issued Today</p>
+            <h2 style="font-size: 2.2rem; margin: 5px 0; color: white;">{{ issued_today }}</h2>
+            <div style="height: 3px; width: 30px; background: rgba(255,255,255,0.3); border-radius: 10px;"></div>
+        </div>
+
         <div class="card" style="background: #f0f4f2;">
             <h2 style="font-size: 1rem;">System Health</h2>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active (MariaDB)<br>Uptime: 99.9%</p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active (PostgreSQL)<br>Uptime: 99.9%</p>
         </div>
     </div>
 
- <div class="content">
-    <div class="card">
-        <details open> <summary style="display: flex; justify-content: space-between; align-items: center; padding: 20px; cursor: pointer; list-style: none;">
+    <div class="content">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px;">
                 <h2>Recent Inventory</h2>
-                <form action="/search" method="POST" style="display: flex; gap: 10px;">
-                    <input type="text" name="search_query" placeholder="Search..." style="padding: 5px 15px; border-radius: 20px; border: 1px solid #ddd;">
+                <form action="/search" method="POST">
+                    <input type="text" name="search_query" placeholder="Search..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; width: 200px;">
                 </form>
-            </summary>
-            <div style="padding: 12px 25px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; gap: 10px; flex-wrap: wrap;">
-        {% for cat_label, cat_query in [('All', 'All'), ('Hindi', 'Hindi'), ('School', 'Education'), ('BCA', 'BCA')] %}
-        <a href="{{ url_for('index', cat=cat_query) }}" 
-           style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.75rem; font-weight: 700; transition: 0.2s;
-           background: {{ 'var(--accent-sage)' if current_cat == cat_query else '#fff' }}; 
-           color: {{ 'white' if current_cat == cat_query else '#666' }};
-           border: 1px solid {{ 'var(--accent-sage)' if current_cat == cat_query else '#ddd' }};">
-           {{ cat_label }}
-        </a>
-        {% endfor %}
-    </div>
+            </div>
+            
+            <div style="padding: 12px 0; display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                {% for cat_label, cat_query in [('All', 'All'), ('Hindi', 'Hindi'), ('School', 'Education'), ('BCA', 'BCA')] %}
+                <a href="{{ url_for('index', cat=cat_query) }}" 
+                   style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.75rem; font-weight: 700; border: 1px solid #ddd; background: {{ 'var(--accent-sage)' if current_cat == cat_query else '#fff' }}; color: {{ 'white' if current_cat == cat_query else '#666' }};">
+                    {{ cat_label }}
+                </a>
+                {% endfor %}
+            </div>
 
             <div class="table-container">
                 <table>
@@ -362,95 +301,57 @@ details summary:hover { background: #f3efeb !important; }
                 </table>
 
                 <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px; border-top: 1px solid #eee;">
-    
-    {% if page > 1 %}
-    <a href="{{ url_for('index', page=page-1, cat=current_cat) }}" 
-       style="text-decoration: none; color: var(--accent-sage); font-weight: 800; font-size: 0.9rem;">← Previous</a>
-    {% else %}
-    <span style="color: #ccc; cursor: not-allowed; font-size: 0.9rem;">← Previous</span>
-    {% endif %}
-
-    <span style="font-size: 0.85rem; font-weight: 600; color: #888;">
-        Page {{ page }} of {{ total_pages }}
-    </span>
-
-    {% if page < total_pages %}
-    <a href="{{ url_for('index', page=page+1, cat=current_cat) }}" 
-       style="text-decoration: none; color: var(--accent-sage); font-weight: 800; font-size: 0.9rem;">Next →</a>
-    {% else %}
-    <span style="color: #ccc; cursor: not-allowed; font-size: 0.9rem;">Next →</span>
-    {% endif %}
-</div>
-            </div>
-        </details>
-    </div>
-</div>
-<div class="card" style="margin-top: 50px; background-color: #fcfaf8; border: 2px dashed var(--border-beige);">
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-        <span style="font-size: 1.5rem;">📁</span>
-        <h2 style="margin: 0; color: var(--text-muted); font-size: 1.3rem;">Archive Vault</h2>
-    </div>
-    
-<div style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
-    <details style="background: white; border: 1px solid var(--border-beige); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease;">
-        
-        <summary style="display: flex; align-items: center; padding: 22px 30px; cursor: pointer; list-style: none; outline: none; background: #faf8f6; transition: background 0.3s;">
-            <span style="font-size: 1.4rem; margin-right: 15px;">📁</span>
-            <div style="flex-grow: 1;">
-                <h2 style="margin: 0; font-size: 1.15rem; color: var(--text-coffee); font-family: 'Playfair Display', serif; font-weight: 800;">Archive Vault</h2>
-                <p style="margin: 2px 0 0; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Restore deleted records</p>
-            </div>
-            <span class="vault-arrow" style="color: var(--accent-sage); font-weight: 900; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">▼</span>
-        </summary>
-
-        <div style="padding: 10px 30px 30px; border-top: 1px solid var(--border-beige); background: white;">
-            <div class="table-container" style="margin-top: 15px;">
-                {% if archived %}
-                <table class="inventory-table">
-                    <thead>
-                        <tr>
-                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">ID</th>
-                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">Title</th>
-                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">Author</th>
-                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec; text-align: right;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for book in archived %}
-                        <tr>
-                            <td style="color: var(--text-muted);">#BK-{{ book[0] }}</td>
-                            <td><del style="color: #a39b94; opacity: 0.6;">{{ book[1] }}</del></td>
-                            <td style="color: var(--text-muted);">{{ book[2] }}</td>
-                            <td style="text-align: right;">
-                                <a href="{{ url_for('restore_book', id=book[0]) }}" 
-                                   style="color: var(--accent-sage); font-weight: 800; text-decoration: none; font-size: 0.75rem; border: 1.5px solid var(--accent-sage); padding: 7px 16px; border-radius: 50px; transition: 0.3s; display: inline-block; text-transform: uppercase;">
-                                   Restore ↺
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <div style="text-align: center; padding: 50px 0;">
-                    <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">The vault is currently empty.</p>
+                    {% if page > 1 %}
+                    <a href="{{ url_for('index', page=page-1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">← Previous</a>
+                    {% endif %}
+                    <span style="font-size: 0.85rem; font-weight: 600; color: #888;">Page {{ page }} of {{ total_pages }}</span>
+                    {% if page < total_pages %}
+                    <a href="{{ url_for('index', page=page+1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">Next →</a>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div>
-    </details>
+
+        <div class="card" style="background-color: #fcfaf8; border: 2px dashed var(--border-beige);">
+            <details>
+                <summary style="display: flex; align-items: center; cursor: pointer; list-style: none;">
+                    <span style="font-size: 1.4rem; margin-right: 15px;">📁</span>
+                    <h2 style="margin: 0; font-size: 1.15rem; font-family: 'Playfair Display', serif;">Archive Vault</h2>
+                </summary>
+                <div style="padding-top: 20px;">
+                    {% if archived %}
+                    <table>
+                        <thead>
+                            <tr><th>ID</th><th>Title</th><th>Action</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for book in archived %}
+                            <tr>
+                                <td>#BK-{{ book[0] }}</td>
+                                <td><del>{{ book[1] }}</del></td>
+                                <td><a href="{{ url_for('restore_book', id=book[0]) }}" style="color: var(--accent-sage); font-weight: 800; text-decoration: none;">Restore ↺</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <p style="text-align: center; color: var(--text-muted); padding: 20px;">Vault is empty.</p>
+                    {% endif %}
+                </div>
+            </details>
+        </div>
+    </div>
 </div>
 
-<div class="archive-vault">
-    <h3>Archive Vault</h3>
-    <footer style="text-align: center; margin-top: 50px;">
+<footer>
     © 2026 LibFlow LMS | CCSU BCA Final Year Project
 </footer>
+
 <script>
     window.addEventListener('load', () => {
         const movers = document.querySelectorAll('.stat-move');
         movers.forEach(mover => {
-            const target = parseInt(mover.getAttribute('data-target'));
+            const target = parseInt(mover.getAttribute('data-target')) || 0;
             const countDisplay = mover.querySelector('.counting-number');
             
             setTimeout(() => {
