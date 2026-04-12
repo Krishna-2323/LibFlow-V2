@@ -44,6 +44,18 @@ def init_db():
 
 init_db()
 
+@app.route('/delete/<int:id>')
+def permanent_delete(id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM Books WHERE id = %s", (id,))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for('index'))
+    
 @app.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
