@@ -381,7 +381,7 @@
         <div style="display: flex; gap: 10px; justify-content: flex-start; align-items: center;">
             <a href="{{ url_for('restore_book', id=book[0]) }}" class="btn-restore">Restore ↺</a>
             
-            <a href="{{ url_for('permanent_delete', id=book[0]) }}" 
+            <a href="{{url_for('permanent_delete', id=book[0]) # <--- This must match the function name }}" 
                class="btn-perma-delete" 
                onclick="return confirm('WARNING: This will permanently remove this book from the database. Proceed?')">
                Delete ✕
