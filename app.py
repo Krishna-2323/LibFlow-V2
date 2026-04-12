@@ -1,7 +1,8 @@
 import os
 import psycopg2 # For Render
 import mysql.connector # For your Laptop (XAMPP)
-
+from flask import Flask, render_template, request, redirect, url_for
+app = Flask(__name__)
 def get_db_connection():
     # If we are on Render, use the Database URL they provide
     # If we are on your laptop, use the Localhost settings
