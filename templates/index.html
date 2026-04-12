@@ -6,7 +6,6 @@
     <title>LibFlow | Premium Library Suite</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. Variables & Base --- */
         :root {
             --bg-latte: #eaddca;
             --card-white: #ffffff;
@@ -27,7 +26,6 @@
             line-height: 1.6;
         }
 
-        /* --- 2. Navigation --- */
         nav {
             background: var(--card-white);
             padding: 1rem 5%;
@@ -43,7 +41,6 @@
         .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-sage); }
         .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; margin-left: 2rem; font-weight: 600; }
 
-        /* --- 3. Branding Section --- */
         .hero-header { text-align: center; padding: 60px 20px 40px; }
         .premium-badge {
             display: inline-flex;
@@ -64,12 +61,6 @@
             margin-bottom: 15px;
         }
 
-        .premium-badge:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(95, 122, 107, 0.2);
-            background: #fff;
-        }
-
         .brand-huge {
             font-family: 'Playfair Display', serif;
             font-size: 5.5rem;
@@ -78,7 +69,6 @@
         }
         .tagline { letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; margin-top: 10px; color: var(--text-muted); }
 
-        /* --- 4. Animated Stats --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -103,7 +93,6 @@
         .stat-move h3 { height: 50px; line-height: 50px; font-size: 2.5rem; color: var(--accent-sage); font-weight: 800; }
         .stat-card span { text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); }
 
-        /* --- 5. Main Layout --- */
         .main-container {
             display: grid;
             grid-template-columns: 350px 1fr;
@@ -146,57 +135,7 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        
- .btn-perma-delete {
-    color: #d9534f;
-    text-decoration: none;
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1.5px solid #d9534f;
-    padding: 6px 14px;
-    border-radius: 50px;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-left: 10px;
-}
 
-.btn-perma-delete:hover {
-    background: #d9534f;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(217, 83, 79, 0.3);
-}
-    /* --- Making the Restore Button "Premium" --- */
-.btn-restore {
-    color: var(--accent-sage);
-    text-decoration: none;
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1.5px solid var(--accent-sage);
-    padding: 6px 14px;
-    border-radius: 50px;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: transparent;
-}
-
-.btn-restore:hover {
-    background: var(--accent-sage);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(95, 122, 107, 0.3);
-}
-        .btn-primary:hover { background: var(--accent-sage-dark); transform: scale(1.02); }
-
-        /* --- 6. Table Section --- */
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { text-align: left; padding: 15px; background: #f8f6f4; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
@@ -204,6 +143,35 @@
         
         .btn-delete { color: #ff4d4d; text-decoration: none; font-weight: 700; font-size: 0.8rem; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; transition: 0.3s; }
         .btn-delete:hover { background: #ff4d4d; color: white; }
+
+        .btn-restore {
+            color: var(--accent-sage);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border: 1.5px solid var(--accent-sage);
+            padding: 6px 14px;
+            border-radius: 50px;
+            transition: var(--transition);
+        }
+
+        .btn-restore:hover { background: var(--accent-sage); color: white; }
+
+        .btn-perma-delete {
+            color: #d9534f;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border: 1.5px solid #d9534f;
+            padding: 6px 14px;
+            border-radius: 50px;
+            transition: var(--transition);
+            margin-left: 5px;
+        }
+
+        .btn-perma-delete:hover { background: #d9534f; color: white; }
 
         footer { text-align: center; padding: 50px; color: var(--text-coffee); font-size: 0.85rem; font-weight: 600; opacity: 0.7; }
     </style>
@@ -220,51 +188,26 @@
 </nav>
 
 <div class="hero-header">
-    <div class="premium-badge">
-        <span>✦</span> Premium Library Suite
-    </div>
+    <div class="premium-badge"><span>✦</span> Premium Library Suite</div>
     <h1 class="brand-huge">LibFlow</h1>
     <p class="tagline">Simple • Elegant • Organized</p>
 </div>
 
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="{{ total_count }}">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
-        </div>
+        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Total Books</span>
     </div>
-
     <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="850">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
-        </div>
+        <div class="stat-window"><div class="stat-move" data-target="850"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Members</span>
     </div>
-
     <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="{{ issued_today }}">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
-        </div>
+        <div class="stat-window"><div class="stat-move" data-target="{{ issued_today }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Issued Today</span>
     </div>
-
     <div class="stat-card">
-        <div class="stat-window">
-            <div class="stat-move" data-target="{{ total_count }}">
-                <h3>0</h3>
-                <h3 class="counting-number">0</h3>
-            </div>
-        </div>
+        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Total Inventory</span>
     </div>
 </div>
@@ -274,131 +217,73 @@
         <div class="card">
             <h2>Quick Actions</h2>
             <form action="/add" method="POST">
-                <div class="form-group">
-                    <label>Book Title</label>
-                    <input type="text" name="title" placeholder="e.g. Project Hail Mary" required>
-                </div>
-                <div class="form-group">
-                    <label>Author</label>
-                    <input type="text" name="author" placeholder="e.g. Andy Weir" required>
-                </div>
-                <div class="form-group">
-                    <label>Category</label>
+                <div class="form-group"><label>Book Title</label><input type="text" name="title" required></div>
+                <div class="form-group"><label>Author</label><input type="text" name="author" required></div>
+                <div class="form-group"><label>Category</label>
                     <select name="category">
-                        <option>Computer Science</option>
-                        <option>Hindi Literature</option>
-                        <option>Sci-Fi</option>
-                        <option>Academic</option>
-                        <option>Fiction</option>
+                        <option>Computer Science</option><option>Hindi Literature</option><option>BCA</option><option>Academic</option>
                     </select>
                 </div>
                 <button type="submit" class="btn-primary">Add to Inventory</button>
             </form>
         </div>
-
         <div class="card" style="background: linear-gradient(135deg, #5f7a6b, #4a5f53); color: white; padding: 25px; border: none;">
-            <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin: 0;">Issued Today</p>
+            <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9;">Issued Today</p>
             <h2 style="font-size: 2.2rem; margin: 5px 0; color: white;">{{ issued_today }}</h2>
-            <div style="height: 3px; width: 30px; background: rgba(255,255,255,0.3); border-radius: 10px;"></div>
         </div>
-
-        <div class="card" style="background: #f0f4f2;">
-            <h2 style="font-size: 1rem;">System Health</h2>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active (PostgreSQL)<br>Uptime: 99.9%</p>
-        </div>
+        <div class="card" style="background: #f0f4f2;"><h2 style="font-size: 1rem;">System Health</h2><p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active (PostgreSQL)<br>Uptime: 99.9%</p></div>
     </div>
 
     <div class="content">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px;">
                 <h2>Recent Inventory</h2>
-                <form action="/search" method="POST">
-                    <input type="text" name="search_query" placeholder="Search..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; width: 200px;">
-                </form>
+                <form action="/search" method="POST"><input type="text" name="search_query" placeholder="Search..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd;"></form>
             </div>
-            
-            <div style="padding: 12px 0; display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-                {% for cat_label, cat_query in [('All', 'All'), ('Hindi', 'Hindi'), ('School', 'Education'), ('BCA', 'BCA')] %}
-                <a href="{{ url_for('index', cat=cat_query) }}" 
-                   style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.75rem; font-weight: 700; border: 1px solid #ddd; background: {{ 'var(--accent-sage)' if current_cat == cat_query else '#fff' }}; color: {{ 'white' if current_cat == cat_query else '#666' }};">
-                    {{ cat_label }}
-                </a>
-                {% endfor %}
-            </div>
-
             <div class="table-container">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Action</th></tr></thead>
                     <tbody>
                         {% for book in books %}
-                        <tr>
-                            <td>#BK-{{ book[0] }}</td>
-                            <td><strong>{{ book[1] }}</strong></td>
-                            <td>{{ book[2] }}</td>
-                            <td><a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a></td>
-                        </tr>
+                        <tr><td>#BK-{{ book[0] }}</td><td><strong>{{ book[1] }}</strong></td><td>{{ book[2] }}</td><td><a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a></td></tr>
                         {% endfor %}
                     </tbody>
                 </table>
-
-                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px; border-top: 1px solid #eee;">
-                    {% if page > 1 %}
-                    <a href="{{ url_for('index', page=page-1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">← Previous</a>
-                    {% endif %}
-                    <span style="font-size: 0.85rem; font-weight: 600; color: #888;">Page {{ page }} of {{ total_pages }}</span>
-                    {% if page < total_pages %}
-                    <a href="{{ url_for('index', page=page+1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">Next →</a>
-                    {% endif %}
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px;">
+                    {% if page > 1 %}<a href="{{ url_for('index', page=page-1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">← Prev</a>{% endif %}
+                    <span style="font-size: 0.85rem;">Page {{ page }} of {{ total_pages }}</span>
+                    {% if page < total_pages %}<a href="{{ url_for('index', page=page+1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">Next →</a>{% endif %}
                 </div>
             </div>
         </div>
 
         <div class="card" style="background-color: #fcfaf8; border: 2px dashed var(--border-beige);">
             <details>
-                <summary style="display: flex; align-items: center; cursor: pointer; list-style: none;">
-                    <span style="font-size: 1.4rem; margin-right: 15px;">📁</span>
-                    <h2 style="margin: 0; font-size: 1.15rem; font-family: 'Playfair Display', serif;">Archive Vault</h2>
-                </summary>
+                <summary style="display: flex; align-items: center; cursor: pointer; list-style: none;"><span style="font-size: 1.4rem; margin-right: 15px;">📁</span><h2 style="margin: 0; font-size: 1.15rem; font-family: 'Playfair Display', serif;">Archive Vault</h2></summary>
                 <div style="padding-top: 20px;">
                     {% if archived %}
                     <table>
-                        <thead>
-                            <tr><th>ID</th><th>Title</th><th>Action</th></tr>
-                        </thead>
+                        <thead><tr><th>ID</th><th>Title</th><th>Action</th></tr></thead>
                         <tbody>
-                           {% for book in archived %}
-<tr>
-    <td>#BK-{{ book[0] }}</td>
-    <td><del>{{ book[1] }}</del></td>
-    <td>
-        <div style="display: flex; gap: 10px; justify-content: flex-start; align-items: center;">
-            <a href="{{ url_for('restore_book', id=book[0]) }}" class="btn-restore">Restore ↺</a>
-            
-            <a href="{{url_for('permanent_delete', id=book[0]) # <--- This must match the function name }}" 
-               class="btn-perma-delete" 
-               onclick="return confirm('WARNING: This will permanently remove this book from the database. Proceed?')">
-               Delete ✕
-            </a>
-        </div>
-    </td>
-</tr>
-{% endfor %}
+                            {% for book in archived %}
+                            <tr>
+                                <td>#BK-{{ book[0] }}</td><td><del>{{ book[1] }}</del></td>
+                                <td>
+                                    <a href="{{ url_for('restore_book', id=book[0]) }}" class="btn-restore">Restore ↺</a>
+                                    <a href="{{ url_for('permanent_delete', id=book[0]) }}" class="btn-perma-delete" onclick="return confirm('Permanently delete this book?')">Delete ✕</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}<p style="text-align: center; color: var(--text-muted);">Vault is empty.</p>{% endif %}
                 </div>
             </details>
         </div>
     </div>
 </div>
 
-<footer>
-    © 2026 LibFlow LMS | CCSU BCA Final Year Project
-</footer>
+<footer>© 2026 LibFlow LMS | CCSU BCA Final Year Project</footer>
 
 <script>
     window.addEventListener('load', () => {
@@ -406,18 +291,13 @@
         movers.forEach(mover => {
             const target = parseInt(mover.getAttribute('data-target')) || 0;
             const countDisplay = mover.querySelector('.counting-number');
-            
             setTimeout(() => {
                 mover.style.transform = 'translateY(-50px)'; 
-                
-                let start = null;
-                const duration = 2000;
-
+                let start = null; const duration = 2000;
                 function step(timestamp) {
                     if (!start) start = timestamp;
                     const progress = Math.min((timestamp - start) / duration, 1);
-                    const easedProgress = 1 - Math.pow(1 - progress, 4);
-                    const currentCount = Math.floor(easedProgress * target);
+                    const currentCount = Math.floor((1 - Math.pow(1 - progress, 4)) * target);
                     countDisplay.innerText = currentCount.toLocaleString();
                     if (progress < 1) window.requestAnimationFrame(step);
                 }
