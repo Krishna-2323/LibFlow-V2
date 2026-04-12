@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibFlow | Premium Library Suite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- 1. Variables & Base --- */
+        :root {
+            --bg-latte: #eaddca;
+            --card-white: #ffffff;
+            --accent-sage: #5f7a6b;
+            --accent-sage-dark: #4a6154;
+            --text-coffee: #3e362e;
+            --text-muted: #7a7169;
+            --border-beige: #d4c5b3;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-latte);
+            color: var(--text-coffee);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* --- 2. Navigation --- */
+        nav {
+            background: var(--card-white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-beige);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-sage); }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; margin-left: 2rem; font-weight: 600; }
+
+        /* --- 3. Branding Section --- */
+        .hero-header { text-align: center; padding: 60px 20px 40px; }
+        .premium-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px solid var(--accent-sage);
+            margin-bottom: 15px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .brand-huge {
+            font-family: 'Playfair Display', serif;
+            font-size: 5.5rem;
+            line-height: 0.9;
+            margin: 0;
+        }
+        .tagline { letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; margin-top: 10px; color: var(--text-muted); }
+
+        /* --- 4. Animated Stats --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .stat-card {
+            background: var(--card-white);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border-beige);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover { transform: translateY(-5px); }
+        
+        .stat-window { height: 50px; overflow: hidden; position: relative; }
+        .stat-move { display: flex; flex-direction: column; transition: transform 1.5s cubic-bezier(0.33, 1, 0.68, 1); }
+        .stat-move h3 { height: 50px; line-height: 50px; font-size: 2.5rem; color: var(--accent-sage); font-weight: 800; }
+        .stat-card span { text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); }
+
+        /* --- 5. Main Layout --- */
+        .main-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-white);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--border-beige);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .card h2 { font-family: 'Playfair Display', serif; margin-bottom: 20px; font-size: 1.5rem; }
+
+        /* Form Controls */
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--accent-sage); }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-beige);
+            border-radius: 10px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--accent-sage);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-primary:hover { background: var(--accent-sage-dark); transform: scale(1.02); }
+
+        /* --- 6. Table Section --- */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; padding: 15px; background: #f8f6f4; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid #f1eeeb; font-size: 0.95rem; }
+        
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .badge-available { background: #dcfce7; color: #166534; }
+        .badge-issued { background: #fee2e2; color: #991b1b; }
+
+        .btn-delete { color: #ff4d4d; text-decoration: none; font-weight: 700; font-size: 0.8rem; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; transition: 0.3s; }
+        .btn-delete:hover { background: #ff4d4d; color: white; }
+
+        footer { text-align: center; padding: 50px; color: var(--text-muted); font-size: 0.85rem; }
+        details summary::-webkit-details-marker { display: none; }
+details[open] .vault-arrow { transform: rotate(180deg); }
+details summary:hover { background: #f3efeb !important; }
+/* Makes the category tabs feel interactive */
+.card a[href*="cat="]:hover {
+    border-color: var(--accent-sage) !important;
+    background: #f4f7f5 !important;
+    color: var(--accent-sage) !important;
+}
+/* The Premium Badge Container */
+.premium-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 24px;
+    border: 1.5px solid #5f7a6b;
+    border-radius: 50px;
+    background: #eaddca;
+    color: #3e362e;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden; /* Important for the shine */
+    transition: all 0.4s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* The Shining Light Effect */
+.premium-badge::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.6), 
+        transparent
+    );
+    transform: skewX(-25deg);
+    transition: none;
+}
+
+/* Hover States */
+.premium-badge:hover {
+    transform: translateY(-3px); /* Lifts up slightly */
+    box-shadow: 0 10px 20px rgba(95, 122, 107, 0.2); /* Soft sage glow */
+    border-color: #5f7a6b;
+    background: #fff; /* Brightens background */
+}
+
+/* Trigger the shine on hover */
+.premium-badge:hover::after {
+    left: 150%;
+    transition: all 0.6s ease;
+}
+
+/* Make the star sparkle */
+.premium-badge span {
+    margin-right: 8px;
+    color: #5f7a6b;
+}
+
+        
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">📚 LIBFLOW</div>
+    <div class="nav-links">
+        <a href="#">Dashboard</a>
+        <a href="#">Inventory</a>
+        <a href="#">Members</a>
+    </div>
+</nav>
+
+<div class="hero-header">
+    <div class="premium-badge">
+    <span>✦</span> Premium Library Suite
+</div>
+    <h1 class="brand-huge">LibFlow</h1>
+    <p class="tagline">Simple • Elegant • Organized</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ total_count }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
+        <span>Total Books</span>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="850">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
+        <span>Members</span>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="142">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
+        <span>Issued Today</span>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-window">
+            <div class="stat-move" data-target="12">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
+        <span>Overdue</span>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="sidebar">
+        <div class="card">
+            <h2>Quick Actions</h2>
+            <form action="/add" method="POST">
+                <div class="form-group">
+                    <label>Book Title</label>
+                    <input type="text" name="title" placeholder="e.g. Project Hail Mary" required>
+                </div>
+                <div class="form-group">
+                    <label>Author</label>
+                    <input type="text" name="author" placeholder="e.g. Andy Weir" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category">
+                        <option>Computer Science</option>
+                        <option>Hindi Literature</option>
+                        <option>Sci-Fi</option>
+                        <option>Academic</option>
+                        <option>Fiction</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Add to Inventory</button>
+            </form>
+        </div>
+<div class="card" style="background: linear-gradient(135deg, #5f7a6b, #4a5f53); color: white; padding: 20px; border: none;">
+    <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9; margin: 0;">Issued Today</p>
+    <h2 style="font-size: 2.2rem; margin: 5px 0; color: white;">{{ issued_today }}</h2>
+    <div style="height: 3px; width: 30px; background: rgba(255,255,255,0.3); border-radius: 10px;"></div>
+</div>
+        <div class="card" style="background: #f0f4f2;">
+            <h2 style="font-size: 1rem;">System Health</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active (MariaDB)<br>Uptime: 99.9%</p>
+        </div>
+    </div>
+
+ <div class="content">
+    <div class="card">
+        <details open> <summary style="display: flex; justify-content: space-between; align-items: center; padding: 20px; cursor: pointer; list-style: none;">
+                <h2>Recent Inventory</h2>
+                <form action="/search" method="POST" style="display: flex; gap: 10px;">
+                    <input type="text" name="search_query" placeholder="Search..." style="padding: 5px 15px; border-radius: 20px; border: 1px solid #ddd;">
+                </form>
+            </summary>
+            <div style="padding: 12px 25px; background: #fafafa; border-bottom: 1px solid #eee; display: flex; gap: 10px; flex-wrap: wrap;">
+        {% for cat_label, cat_query in [('All', 'All'), ('Hindi', 'Hindi'), ('School', 'Education'), ('BCA', 'BCA')] %}
+        <a href="{{ url_for('index', cat=cat_query) }}" 
+           style="padding: 6px 16px; border-radius: 20px; text-decoration: none; font-size: 0.75rem; font-weight: 700; transition: 0.2s;
+           background: {{ 'var(--accent-sage)' if current_cat == cat_query else '#fff' }}; 
+           color: {{ 'white' if current_cat == cat_query else '#666' }};
+           border: 1px solid {{ 'var(--accent-sage)' if current_cat == cat_query else '#ddd' }};">
+           {{ cat_label }}
+        </a>
+        {% endfor %}
+    </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td>#BK-{{ book[0] }}</td>
+                            <td><strong>{{ book[1] }}</strong></td>
+                            <td>{{ book[2] }}</td>
+                            <td><a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px; border-top: 1px solid #eee;">
+    
+    {% if page > 1 %}
+    <a href="{{ url_for('index', page=page-1, cat=current_cat) }}" 
+       style="text-decoration: none; color: var(--accent-sage); font-weight: 800; font-size: 0.9rem;">← Previous</a>
+    {% else %}
+    <span style="color: #ccc; cursor: not-allowed; font-size: 0.9rem;">← Previous</span>
+    {% endif %}
+
+    <span style="font-size: 0.85rem; font-weight: 600; color: #888;">
+        Page {{ page }} of {{ total_pages }}
+    </span>
+
+    {% if page < total_pages %}
+    <a href="{{ url_for('index', page=page+1, cat=current_cat) }}" 
+       style="text-decoration: none; color: var(--accent-sage); font-weight: 800; font-size: 0.9rem;">Next →</a>
+    {% else %}
+    <span style="color: #ccc; cursor: not-allowed; font-size: 0.9rem;">Next →</span>
+    {% endif %}
+</div>
+            </div>
+        </details>
+    </div>
+</div>
+<div class="card" style="margin-top: 50px; background-color: #fcfaf8; border: 2px dashed var(--border-beige);">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <span style="font-size: 1.5rem;">📁</span>
+        <h2 style="margin: 0; color: var(--text-muted); font-size: 1.3rem;">Archive Vault</h2>
+    </div>
+    
+<div style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+    <details style="background: white; border: 1px solid var(--border-beige); border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.3s ease;">
+        
+        <summary style="display: flex; align-items: center; padding: 22px 30px; cursor: pointer; list-style: none; outline: none; background: #faf8f6; transition: background 0.3s;">
+            <span style="font-size: 1.4rem; margin-right: 15px;">📁</span>
+            <div style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 1.15rem; color: var(--text-coffee); font-family: 'Playfair Display', serif; font-weight: 800;">Archive Vault</h2>
+                <p style="margin: 2px 0 0; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">Restore deleted records</p>
+            </div>
+            <span class="vault-arrow" style="color: var(--accent-sage); font-weight: 900; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">▼</span>
+        </summary>
+
+        <div style="padding: 10px 30px 30px; border-top: 1px solid var(--border-beige); background: white;">
+            <div class="table-container" style="margin-top: 15px;">
+                {% if archived %}
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">ID</th>
+                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">Title</th>
+                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec;">Author</th>
+                            <th style="background: transparent; border-bottom: 2px solid #f4f0ec; text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in archived %}
+                        <tr>
+                            <td style="color: var(--text-muted);">#BK-{{ book[0] }}</td>
+                            <td><del style="color: #a39b94; opacity: 0.6;">{{ book[1] }}</del></td>
+                            <td style="color: var(--text-muted);">{{ book[2] }}</td>
+                            <td style="text-align: right;">
+                                <a href="{{ url_for('restore_book', id=book[0]) }}" 
+                                   style="color: var(--accent-sage); font-weight: 800; text-decoration: none; font-size: 0.75rem; border: 1.5px solid var(--accent-sage); padding: 7px 16px; border-radius: 50px; transition: 0.3s; display: inline-block; text-transform: uppercase;">
+                                   Restore ↺
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div style="text-align: center; padding: 50px 0;">
+                    <p style="color: var(--text-muted); font-size: 0.9rem; font-style: italic;">The vault is currently empty.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </details>
+</div>
+
+
+<footer style="text-align: center; padding-bottom: 40px; color: var(--text-muted); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.5px;">
+    &copy; 2026 LibFlow LMS | CCSU BCA Final Year Project
+</footer>
+
+<script>
+    window.addEventListener('load', () => {
+        const movers = document.querySelectorAll('.stat-move');
+        movers.forEach(mover => {
+            const target = parseInt(mover.getAttribute('data-target'));
+            const countDisplay = mover.querySelector('.counting-number');
+            
+            setTimeout(() => {
+                mover.style.transform = 'translateY(-50px)'; 
+                
+                let start = null;
+                const duration = 2000;
+
+                function step(timestamp) {
+                    if (!start) start = timestamp;
+                    const progress = Math.min((timestamp - start) / duration, 1);
+                    const easedProgress = 1 - Math.pow(1 - progress, 4);
+                    const currentCount = Math.floor(easedProgress * target);
+                    countDisplay.innerText = currentCount.toLocaleString();
+                    if (progress < 1) window.requestAnimationFrame(step);
+                }
+                window.requestAnimationFrame(step);
+            }, 500);
+        });
+    });
+</script>
+</body>
+</html>
