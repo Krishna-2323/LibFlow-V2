@@ -19,6 +19,36 @@ def get_db_connection():
             password="",
             database="library_db"
         )
+    # ADD THIS BLOCK TO CREATE TABLES AUTOMATICALLY
+def init_db():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    # Create Books table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Books (
+            id SERIAL PRIMARY KEY,
+            title VARCHAR(255) NOT NULL,
+            author VARCHAR(255) NOT NULL,
+            category VARCHAR(100),
+            is_archived BOOLEAN DEFAULT FALSE
+        );
+    """)
+    # Create Issued_Books table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Issued_Books (
+            id SERIAL PRIMARY KEY,
+            book_id INT,
+            member_name VARCHAR(255),
+            issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (book_id) REFERENCES Books(id)
+        );
+    """)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# RUN THE INITIALIZATION
+init_db()
 
 @app.route('/')
 def index():
