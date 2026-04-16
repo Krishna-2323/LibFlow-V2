@@ -49,8 +49,11 @@ init_db()
 
 @app.route('/dashboard')
 def index():
+    # 1. Security Check
     if 'role' not in session:
         return redirect(url_for('selection'))
+
+    # 2. Setup Variables
     page = request.args.get('page', 1, type=int)
     selected_cat = request.args.get('cat', 'All') 
     per_page = 6
@@ -59,6 +62,7 @@ def index():
     active_books, archived_books = [], []
     total_active, issued_count, total_pages = 0, 0, 1
 
+    # 3. Database Operations
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -76,6 +80,7 @@ def index():
 
         cursor.execute(query, params)
         active_books = cursor.fetchall()
+        
         cursor.execute(count_query, count_params)
         total_active = cursor.fetchone()[0]
         total_pages = (total_active + per_page - 1) // per_page if total_active > 0 else 1
@@ -92,21 +97,31 @@ def index():
     finally:
         cursor.close()
         conn.close()
-        
-         if session.get('role') == 'admin':
+
+    # 4. Role-Based Label Logic (ALIGNED OUTSIDE FINALLY)
+    if session.get('role') == 'admin':
         s2_label, s2_val = "Total Members", 850
-        s3_label, s3_val = "Issued Today", issued_count # From your DB query
-         else:
+        s3_label, s3_val = "Issued Today", issued_count
+    else:
         # Hardcoded values for the student demo
         s2_label, s2_val = "My Borrowed Books", 2 
         s3_label, s3_val = "Pending Requests", 1
 
-    return render_template('index.html', 
-                           # ... (Your existing variables: books, page, etc.) ...
-                           stat_2_label=s2_label, 
-                           stat_2_val=s2_val,
-                           stat_3_label=s3_label, 
-                           stat_3_val=s3_val)
+    # 5. Render Template
+    return render_template(
+        'index.html', 
+        books=active_books, 
+        archived=archived_books, 
+        total_count=total_active, 
+        page=page, 
+        total_pages=total_pages, 
+        current_cat=selected_cat, 
+        issued_today=issued_count,
+        stat_2_label=s2_label, 
+        stat_2_val=s2_val,
+        stat_3_label=s3_label, 
+        stat_3_val=s3_val
+    )
 
 @app.route('/add', methods=['POST'])
 def add_book():
