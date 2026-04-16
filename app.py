@@ -165,17 +165,17 @@ def login(role):
         username = request.form.get('username')
         password = request.form.get('password')
 
-        # FOR PRESENTATION: You can hardcode a check or query your DB
-        # If querying DB: SELECT * FROM Users WHERE username=%s AND password=%s AND role=%s
-        
-        if (role == 'admin' and username == 'admin' and password == 'admin123') or \
-           (role == 'student' and username == 'student' and password == '12345'):
-            
-            session['role'] = role
-            session['user_id'] = 1 # Placeholder
+        # Simple check for your presentation
+        if role == 'admin' and username == 'admin' and password == 'admin123':
+            session['role'] = 'admin'
             return redirect(url_for('index'))
+        
+        elif role == 'student' and username == 'student' and password == '12345':
+            session['role'] = 'student'
+            return redirect(url_for('index'))
+        
         else:
-            return "Invalid Credentials! <a href='/'>Go back</a>"
+            return "Invalid Credentials. Try admin/admin123 or student/12345"
 
     return render_template('login.html', role=role)
 if __name__ == '__main__':
