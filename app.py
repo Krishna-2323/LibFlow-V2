@@ -40,10 +40,22 @@ def init_db():
                 FOREIGN KEY (book_id) REFERENCES Books(id)
             );
         """)
+        # Add this to your init_db() function
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Issue_Requests (
+                id SERIAL PRIMARY KEY,
+                book_id INT,
+                student_name VARCHAR(255),
+                status VARCHAR(20) DEFAULT 'Pending',
+                request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (book_id) REFERENCES Books(id)
+            );
+        """)
         conn.commit()
     finally:
         cursor.close()
         conn.close()
+    
 
 init_db()
 @app.route('/dashboard')
@@ -217,5 +229,23 @@ def login(role):
             return "Invalid Credentials. Try admin/admin123 or student/12345"
 
     return render_template('login.html', role=role)
+@app.route('/request_issue/<int:book_id>')
+def request_issue(book_id):
+    if 'role' not in session:
+        return redirect(url_for('selection'))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # For the demo, we'll just use the session role as the requester name
+        student_name = "Demo Student" 
+        cursor.execute("INSERT INTO Issue_Requests (book_id, student_name) VALUES (%s, %s)", 
+                       (book_id, student_name))
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+    
+    return redirect(url_for('index')) # In a real app, you'd add a "Success" message here
 if __name__ == '__main__':
     app.run()
