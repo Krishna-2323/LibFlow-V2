@@ -4,6 +4,7 @@ import mysql.connector
 from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
+app.secret_key = 'ccsu_project_secret' # This allows Flask to use sessions
 
 def get_db_connection():
     db_url = os.environ.get('DATABASE_URL') 
