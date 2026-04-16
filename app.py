@@ -76,12 +76,12 @@ def dashboard_view():
         total_active = total_active or 0
 
     # Role-Based Context Logic
-   if session.get('role') == 'admin':
-    s2_label, s2_val = "Total Members", (850 if total_active > 0 else 0)
-    s3_label, s3_val = "Issued Today", issued_count
-else:
-    s2_label, s2_val = "My Books", 0
-    s3_label, s3_val = "Requests", 0
+    if session.get('role') == 'admin':
+        s2_label, s2_val = "Total Members", (850 if total_active > 0 else 0)
+        s3_label, s3_val = "Issued Today", issued_count
+    else:
+        s2_label, s2_val = "My Books", 0
+        s3_label, s3_val = "Requests", 0
 
     return render_template(
         'index.html', 
