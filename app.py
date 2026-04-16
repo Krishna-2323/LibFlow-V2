@@ -92,7 +92,7 @@ def index():
     finally:
         cursor.close()
         conn.close()
-        if session.get('role') == 'admin':
+    if session.get('role') == 'admin':
         s2_label, s2_val = "Total Members", 850
         s3_label, s3_val = "Issued Today", issued_count
     else:
