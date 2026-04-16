@@ -6,7 +6,6 @@
     <title>LibFlow | Premium Library Suite</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ... Keeping your existing CSS Variables and Styles ... */
         :root {
             --bg-latte: #eaddca;
             --card-white: #ffffff;
@@ -18,90 +17,96 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Adding a small utility for the logout button */
-        .btn-logout { 
-            color: #d9534f !important; 
-            border: 1px solid #d9534f; 
-            padding: 5px 15px; 
-            border-radius: 50px; 
-            transition: 0.3s;
-        }
-        .btn-logout:hover { background: #d9534f; color: white !important; }
-
-        /* Existing styles continue here... */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-latte); color: var(--text-coffee); font-family: 'Inter', sans-serif; line-height: 1.6; }
-        nav { background: var(--card-white); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-beige); position: sticky; top: 0; z-index: 1000; }
+
+        nav {
+            background: var(--card-white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-beige);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
         .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-sage); }
         .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; margin-left: 2rem; font-weight: 600; }
+        .btn-logout { color: #d9534f !important; border: 1px solid #d9534f; padding: 5px 15px; border-radius: 50px; }
+
         .hero-header { text-align: center; padding: 60px 20px 40px; }
-        .premium-badge { display: inline-flex; align-items: center; padding: 8px 24px; border: 1.5px solid #5f7a6b; border-radius: 50px; background: #eaddca; color: #3e362e; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; position: relative; overflow: hidden; transition: all 0.4s ease; cursor: pointer; text-transform: uppercase; margin-bottom: 15px; }
+        .premium-badge {
+            display: inline-flex;
+            padding: 8px 24px;
+            border: 1.5px solid #5f7a6b;
+            border-radius: 50px;
+            background: #eaddca;
+            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
         .brand-huge { font-family: 'Playfair Display', serif; font-size: 5.5rem; line-height: 0.9; margin: 0; }
         .tagline { letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; margin-top: 10px; color: var(--text-muted); }
+
+        /* FIXED STATS GRID */
         .stats-grid {
-    display: grid;
-    /* This forces exactly 4 equal columns */
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-    width: 100%; /* Ensure it takes full width */
-}
-.stats-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1fr 1fr !important; /* Forces 4 columns */
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto 40px;
-    padding: 0 20px;
-}
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
 
-.stat-card {
-    min-width: 0; /* Prevents cards from overflowing */
-    height: auto;
-    padding: 25px 10px;
-}
+        .stat-card {
+            background: var(--card-white);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border-beige);
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-.stat-card {
-    background: var(--card-white);
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    border: 1px solid var(--border-beige);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-    transition: var(--transition);
-    /* Add a min-height so they don't look like tall thin strips */
-    min-height: 140px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
         .stat-window { height: 50px; overflow: hidden; position: relative; }
         .stat-move { display: flex; flex-direction: column; transition: transform 1.5s cubic-bezier(0.33, 1, 0.68, 1); }
         .stat-move h3 { height: 50px; line-height: 50px; font-size: 2.5rem; color: var(--accent-sage); font-weight: 800; }
         .stat-card span { text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); }
-        .main-container { display: grid; grid-template-columns: 350px 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .card { background: var(--card-white); padding: 30px; border-radius: 24px; border: 1px solid var(--border-beige); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05); margin-bottom: 20px; }
-        .card h2 { font-family: 'Playfair Display', serif; margin-bottom: 20px; font-size: 1.5rem; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 5px; color: var(--accent-sage); }
-        input, select { width: 100%; padding: 12px; border: 1px solid var(--border-beige); border-radius: 10px; outline: none; font-size: 0.9rem; }
-        .btn-primary { width: 100%; background: var(--accent-sage); color: white; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: var(--transition); }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--card-white);
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid var(--border-beige);
+            margin-bottom: 20px;
+        }
+
+        .btn-primary { width: 100%; background: var(--accent-sage); color: white; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { text-align: left; padding: 15px; background: #f8f6f4; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
         td { padding: 15px; border-bottom: 1px solid #f1eeeb; font-size: 0.95rem; }
-        .btn-delete { color: #ff4d4d; text-decoration: none; font-weight: 700; font-size: 0.8rem; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; transition: 0.3s; }
-        .btn-delete:hover { background: #ff4d4d; color: white; }
-        .btn-restore { color: var(--accent-sage); text-decoration: none; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; border: 1.5px solid var(--accent-sage); padding: 6px 14px; border-radius: 50px; transition: var(--transition); }
-        .btn-restore:hover { background: var(--accent-sage); color: white; }
-        @keyframes shine { 0% { left: -100%; } 20% { left: 150%; } 100% { left: 150%; } }
-        .premium-badge::after { content: ''; position: absolute; top: 0; left: -100%; width: 60%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent); transform: skewX(-25deg); animation: shine 3s infinite; }
-        .premium-badge:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(95, 122, 107, 0.2); background: #fff; }
-        .btn-perma-delete { color: #d9534f; text-decoration: none; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; border: 1.5px solid #d9534f; padding: 6px 14px; border-radius: 50px; transition: var(--transition); margin-left: 5px; }
-        .btn-perma-delete:hover { background: #d9534f; color: white; }
-        footer { text-align: center; padding: 50px; color: var(--text-coffee); font-size: 0.85rem; font-weight: 600; opacity: 0.7; }
+
+        .btn-delete { color: #ff4d4d; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 700; }
+        .btn-restore { color: var(--accent-sage); border: 1.5px solid var(--accent-sage); padding: 6px 14px; border-radius: 50px; text-decoration: none; font-size: 0.75rem; font-weight: 800; }
+
+        footer { text-align: center; padding: 50px; opacity: 0.7; font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -109,8 +114,8 @@
 <nav>
     <div class="logo">📚 LIBFLOW</div>
     <div class="nav-links">
-        <a href="#">Dashboard</a>
-        {% if session.role == 'admin' %}
+        <a href="{{ url_for('index') }}">Dashboard</a>
+        {% if session.get('role') == 'admin' %}
             <a href="#">Inventory</a>
             <a href="#">Members</a>
         {% endif %}
@@ -119,7 +124,7 @@
 </nav>
 
 <div class="hero-header">
-    <div class="premium-badge"><span>✦</span> {{ session.role | upper }} ACCESS</div>
+    <div class="premium-badge">✦ {{ session.get('role') | upper }} ACCESS</div>
     <h1 class="brand-huge">LibFlow</h1>
     <p class="tagline">Simple • Elegant • Organized</p>
 </div>
@@ -129,17 +134,14 @@
         <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Total Books</span>
     </div>
-
     <div class="stat-card">
         <div class="stat-window"><div class="stat-move" data-target="{{ stat_2_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>{{ stat_2_label }}</span>
     </div>
-
     <div class="stat-card">
         <div class="stat-window"><div class="stat-move" data-target="{{ stat_3_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>{{ stat_3_label }}</span>
     </div>
-
     <div class="stat-card">
         <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Available Inventory</span>
@@ -148,31 +150,22 @@
 
 <div class="main-container">
     <div class="sidebar">
-        {% if session.role == 'admin' %}
+        {% if session.get('role') == 'admin' %}
         <div class="card">
             <h2>Quick Actions</h2>
             <form action="/add" method="POST">
-                <div class="form-group"><label>Book Title</label><input type="text" name="title" required></div>
-                <div class="form-group"><label>Author</label><input type="text" name="author" required></div>
-                <div class="form-group"><label>Category</label>
-                    <select name="category">
-                        <option>Computer Science</option><option>Hindi Literature</option><option>BCA</option><option>Academic</option>
-                    </select>
-                </div>
+                <div style="margin-bottom: 15px;"><label style="display:block; font-size:0.8rem; font-weight:700;">Book Title</label><input type="text" name="title" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;" required></div>
+                <div style="margin-bottom: 15px;"><label style="display:block; font-size:0.8rem; font-weight:700;">Author</label><input type="text" name="author" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;" required></div>
                 <button type="submit" class="btn-primary">Add to Inventory</button>
             </form>
         </div>
         {% else %}
         <div class="card" style="background: var(--accent-sage); color: white;">
             <h2>Student Portal</h2>
-            <p style="font-size: 0.85rem; opacity: 0.9;">Welcome to your library dashboard. You can search for books and request an issue below.</p>
+            <p style="font-size: 0.85rem; opacity: 0.9;">Welcome back. Search the catalog to find and request your next read.</p>
         </div>
         {% endif %}
-
-        <div class="card" style="background: linear-gradient(135deg, #5f7a6b, #4a5f53); color: white; padding: 25px; border: none;">
-            <p style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.9;">System Status</p>
-            <h2 style="font-size: 1.5rem; margin: 5px 0; color: white;">Online</h2>
-        </div>
+        <div class="card" style="background: #f0f4f2;"><h2 style="font-size: 1rem;">System Health</h2><p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active<br>Uptime: 99.9%</p></div>
     </div>
 
     <div class="content">
@@ -191,56 +184,24 @@
                             <td><strong>{{ book[1] }}</strong></td>
                             <td>{{ book[2] }}</td>
                             <td>
-                                {% if session.role == 'admin' %}
+                                {% if session.get('role') == 'admin' %}
                                     <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a>
                                 {% else %}
-                                    <a href="{{ url_for('request_book', id=book[0]) }}" class="btn-restore">Request Issue</a>
+                                    <a href="#" class="btn-restore">Request Issue</a>
                                 {% endif %}
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px;">
-                    {% if page > 1 %}<a href="{{ url_for('index', page=page-1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">← Prev</a>{% endif %}
-                    <span style="font-size: 0.85rem;">Page {{ page }} of {{ total_pages }}</span>
-                    {% if page < total_pages %}<a href="{{ url_for('index', page=page+1, cat=current_cat) }}" style="text-decoration: none; color: var(--accent-sage); font-weight: 800;">Next →</a>{% endif %}
-                </div>
             </div>
         </div>
-
-        {% if session.role == 'admin' %}
-        <div class="card" style="background-color: #fcfaf8; border: 2px dashed var(--border-beige);">
-            <details>
-                <summary style="display: flex; align-items: center; cursor: pointer; list-style: none;"><span style="font-size: 1.4rem; margin-right: 15px;">📁</span><h2 style="margin: 0; font-size: 1.15rem; font-family: 'Playfair Display', serif;">Archive Vault</h2></summary>
-                <div style="padding-top: 20px;">
-                    {% if archived %}
-                    <table>
-                        <thead><tr><th>ID</th><th>Title</th><th>Action</th></tr></thead>
-                        <tbody>
-                            {% for book in archived %}
-                            <tr>
-                                <td>#BK-{{ book[0] }}</td><td><del>{{ book[1] }}</del></td>
-                                <td>
-                                    <a href="{{ url_for('restore_book', id=book[0]) }}" class="btn-restore">Restore ↺</a>
-                                    <a href="{{ url_for('permanent_delete', id=book[0]) }}" class="btn-perma-delete" onclick="return confirm('Permanently delete this book?')">Delete ✕</a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}<p style="text-align: center; color: var(--text-muted);">Vault is empty.</p>{% endif %}
-                </div>
-            </details>
-        </div>
-        {% endif %}
     </div>
 </div>
 
-<footer>© 2026 LibFlow LMS | CCSU BCA Final Year Project</footer>
+<footer>© 2026 LibFlow LMS | CCSU BCA Project</footer>
 
 <script>
-    /* ... Keeping your existing counting animation script ... */
     window.addEventListener('load', () => {
         const movers = document.querySelectorAll('.stat-move');
         movers.forEach(mover => {
