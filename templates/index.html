@@ -93,24 +93,20 @@
         <span>Total Books</span>
     </div>
 
+  <div class="stats-grid">
     <div class="stat-card">
-        {% if session.role == 'admin' %}
-            <div class="stat-window"><div class="stat-move" data-target="850"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-            <span>Total Members</span>
-        {% else %}
-            <div class="stat-window"><div class="stat-move" data-target="{{ student_books_count | default(0) }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-            <span>My Borrowed Books</span>
-        {% endif %}
+        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <span>Total Books</span>
     </div>
 
     <div class="stat-card">
-        {% if session.role == 'admin' %}
-            <div class="stat-window"><div class="stat-move" data-target="{{ issued_today }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-            <span>Issued Today</span>
-        {% else %}
-            <div class="stat-window"><div class="stat-move" data-target="{{ pending_req_count | default(0) }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-            <span>Pending Requests</span>
-        {% endif %}
+        <div class="stat-window"><div class="stat-move" data-target="{{ stat_2_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <span>{{ stat_2_label }}</span>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-window"><div class="stat-move" data-target="{{ stat_3_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <span>{{ stat_3_label }}</span>
     </div>
 
     <div class="stat-card">
