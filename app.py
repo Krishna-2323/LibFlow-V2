@@ -6,8 +6,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import os
 
 app = Flask(__name__)
-# This is the key that signs the session cookie
-app.secret_key = os.environ.get('SECRET_KEY', 'dev_key_123')
+app.secret_key = 'ccsu_bca_project_key' # MAKE SURE THIS LINE EXISTS
 
 def get_db_connection():
     db_url = os.environ.get('DATABASE_URL') 
@@ -213,23 +212,25 @@ def logout():
     session.clear() # Clears role and user_id
     return redirect(url_for('selection'))
     
-@app.route('/login/<role>', methods=['GET', 'POST']) 
+@app.route('/login/<role>', methods=['GET', 'POST'])
 def login(role):
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        
+        print(f"DEBUG: Attempting login for {role} with user {username}")
 
-        # Simple check for your presentation
+        # Simple, hardcoded check for the demo
         if role == 'admin' and username == 'admin' and password == 'admin123':
             session['role'] = 'admin'
             return redirect(url_for('index'))
-        
+            
         elif role == 'student' and username == 'student' and password == '12345':
             session['role'] = 'student'
             return redirect(url_for('index'))
         
         else:
-            return "Invalid Credentials. Try admin/admin123 or student/12345"
+            return "Invalid Credentials. Use admin/admin123 or student/12345. <a href='/'>Go Back</a>"
 
     return render_template('login.html', role=role)
 @app.route('/request_issue/<int:book_id>')
