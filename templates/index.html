@@ -152,32 +152,35 @@
                 <thead>
                     <tr><th>Book Details</th><th>Action</th></tr>
                 </thead>
-                <tbody>
-                    {% for book in books %}
-                    <tr>
-                        <td>
-                            <div style="font-weight: 800; font-size: 1.05rem;">{{ book[1] }}</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">By {{ book[2] }}</div>
-                        </td>
-                        <td>
-                            {% if session.get('role') == 'admin' %}
-                                <a href="#" class="btn-action" style="color: #ff4d4d; border-color: #ff4d4d;">Archive</a>
-                            {% else %}
-                                <button onclick="handleRequest('{{ book[1] }}')" class="btn-action">Request Issue</button>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% if not books %}
-                    <tr>
-                        <td>
-                            <div style="font-weight: 800;">Modern Web Architectures</div>
-                            <div style="font-size: 0.8rem; color: var(--text-muted);">By CCSU Faculty</div>
-                        </td>
-                        <td><button onclick="handleRequest('Modern Web Architectures')" class="btn-action">Request Issue</button></td>
-                    </tr>
-                    {% endif %}
-                </tbody>
+              <tbody>
+    {% for book in books %}
+    <tr>
+        <td>
+            <div style="font-weight: 800; font-size: 1.05rem;">{{ book[1] }}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">By {{ book[2] }}</div>
+        </td>
+        <td>
+            {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-action" style="color: #ff4d4d; border-color: #ff4d4d; text-decoration: none;">Archive</a>
+            {% else %}
+                <button onclick="handleRequest('{{ book[1] }}')" class="btn-action">Request Issue</button>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+
+    {# Only show this if the database is literally empty #}
+    {% if not books %}
+    <tr>
+        <td colspan="2" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            No books found in inventory. 
+            {% if session.get('role') == 'admin' %} 
+                Add one using the sidebar! 
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+</tbody>
             </table>
         </div>
     </div>
