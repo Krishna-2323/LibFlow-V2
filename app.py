@@ -92,10 +92,11 @@ def index():
     finally:
         cursor.close()
         conn.close()
-  if session.get('role') == 'admin':
+        
+         if session.get('role') == 'admin':
         s2_label, s2_val = "Total Members", 850
         s3_label, s3_val = "Issued Today", issued_count # From your DB query
-    else:
+         else:
         # Hardcoded values for the student demo
         s2_label, s2_val = "My Borrowed Books", 2 
         s3_label, s3_val = "Pending Requests", 1
