@@ -1,10 +1,10 @@
 import os
 import psycopg2 
 import mysql.connector 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session # Add 'session' here
 
 app = Flask(__name__)
-app.secret_key = 'ccsu_project_secret' # This allows Flask to use sessions
+app.secret_key = 'your_super_secret_key_here'
 
 def get_db_connection():
     db_url = os.environ.get('DATABASE_URL') 
@@ -160,7 +160,7 @@ def logout():
     session.clear() # Clears role and user_id
     return redirect(url_for('selection'))
     
-@app.route('/login/<role>', methods=['GET', 'POST'])
+@app.route('/login/<role>', methods=['GET', 'POST']) 
 def login(role):
     if request.method == 'POST':
         username = request.form.get('username')
