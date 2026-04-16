@@ -150,16 +150,19 @@
 
 <div class="main-container">
     <div class="sidebar">
-        {% if session.get('role') == 'admin' %}
-        <div class="card">
-            <h2>Quick Actions</h2>
-            <form action="/add" method="POST">
-                <div style="margin-bottom: 15px;"><label style="display:block; font-size:0.8rem; font-weight:700;">Book Title</label><input type="text" name="title" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;" required></div>
-                <div style="margin-bottom: 15px;"><label style="display:block; font-size:0.8rem; font-weight:700;">Author</label><input type="text" name="author" style="width:100%; padding:10px; border-radius:8px; border:1px solid #ddd;" required></div>
-                <button type="submit" class="btn-primary">Add to Inventory</button>
-            </form>
+     {% if session.get('role') == 'admin' %}
+    <div class="card" style="border-left: 5px solid #d4c5b3;">
+        <h2 style="font-size: 1.1rem;">🔔 Pending Requests</h2>
+        <div style="padding: 10px; background: #f9f9f9; border-radius: 12px; margin-top: 10px;">
+            <p style="font-size: 0.85rem;"><strong>Data Structures in C++</strong></p>
+            <p style="font-size: 0.7rem; color: #7a7169;">Requested by: Ayushi (Student ID: 102)</p>
+            <div style="margin-top: 10px;">
+                <button class="btn-restore" style="padding: 4px 10px; font-size: 0.65rem;">Approve</button>
+                <button class="btn-delete" style="padding: 4px 10px; font-size: 0.65rem; border-radius: 50px;">Reject</button>
+            </div>
         </div>
-        {% else %}
+    </div>
+{% endif %}
         <div class="card" style="background: var(--accent-sage); color: white;">
             <h2>Student Portal</h2>
             <p style="font-size: 0.85rem; opacity: 0.9;">Welcome back. Search the catalog to find and request your next read.</p>
@@ -184,11 +187,11 @@
                             <td><strong>{{ book[1] }}</strong></td>
                             <td>{{ book[2] }}</td>
                             <td>
-                                {% if session.get('role') == 'admin' %}
-                                    <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a>
-                                {% else %}
-                                    <a href="#" class="btn-restore">Request Issue</a>
-                                {% endif %}
+                             {% if session.get('role') == 'admin' %}
+    <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a>
+{% else %}
+    <a href="javascript:void(0);" onclick="sendRequest('{{ book[1] }}')" class="btn-restore">Request Issue</a>
+{% endif %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -221,6 +224,25 @@
             }, 500);
         });
     });
+</script>
+    <script>
+function sendRequest(bookTitle) {
+    // 1. Visual Feedback
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = "Processing...";
+    btn.style.opacity = "0.5";
+    btn.style.pointerEvents = "none";
+
+    // 2. Simulated Delay (Looks like it's talking to a server)
+    setTimeout(() => {
+        alert("Success! Request for '" + bookTitle + "' has been sent to the Librarian.");
+        btn.innerText = "Requested ✓";
+        btn.style.background = "#5f7a6b";
+        btn.style.color = "white";
+        btn.style.opacity = "1";
+    }, 800);
+}
 </script>
 </body>
 </html>
