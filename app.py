@@ -46,27 +46,28 @@ def init_db():
         conn.close()
 
 init_db()
-
 @app.route('/dashboard')
 def index():
     # 1. Security Check
     if 'role' not in session:
         return redirect(url_for('selection'))
 
-    # 2. Setup Variables
+    # 2. Setup Variables with safe defaults
     page = request.args.get('page', 1, type=int)
     selected_cat = request.args.get('cat', 'All') 
     per_page = 6
     offset = (page - 1) * per_page
-
+    
     active_books, archived_books = [], []
     total_active, issued_count, total_pages = 0, 0, 1
 
     # 3. Database Operations
-    conn = get_db_connection()
-    cursor = conn.cursor()
-
+    conn = None
     try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Get active books
         if selected_cat == 'All':
             query = "SELECT * FROM Books WHERE is_archived = FALSE ORDER BY id ASC LIMIT %s OFFSET %s"
             params = (per_page, offset)
@@ -85,29 +86,38 @@ def index():
         total_active = cursor.fetchone()[0]
         total_pages = (total_active + per_page - 1) // per_page if total_active > 0 else 1
 
+        # Get archived books
         cursor.execute("SELECT * FROM Books WHERE is_archived = TRUE ORDER BY id DESC")
         archived_books = cursor.fetchall()
 
+        # Get stats count safely
         if os.environ.get('DATABASE_URL'):
             cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURRENT_DATE")
         else:
             cursor.execute("SELECT COUNT(*) FROM Issued_Books WHERE DATE(issue_date) = CURDATE()")
-        issued_count = cursor.fetchone()[0]
-
-    finally:
+        
+        result = cursor.fetchone()
+        issued_count = result[0] if result else 0
+        
         cursor.close()
-        conn.close()
+    except Exception as e:
+        print(f"Database error: {e}")
+    finally:
+        if conn:
+            conn.close()
 
-    # 4. Role-Based Label Logic (ALIGNED OUTSIDE FINALLY)
-    if session.get('role') == 'admin':
+    # 4. Role-Based Label Logic (SAFE DEFAULTS)
+    current_role = session.get('role')
+    
+    if current_role == 'admin':
         s2_label, s2_val = "Total Members", 850
         s3_label, s3_val = "Issued Today", issued_count
     else:
-        # Hardcoded values for the student demo
+        # These are for the student demo
         s2_label, s2_val = "My Borrowed Books", 2 
         s3_label, s3_val = "Pending Requests", 1
 
-    # 5. Render Template
+    # 5. Render Template with exact variable names
     return render_template(
         'index.html', 
         books=active_books, 
