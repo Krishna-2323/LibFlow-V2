@@ -3,246 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LibFlow | Premium Library Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>LibFlow | Premium Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-latte: #eaddca;
-            --card-white: #ffffff;
-            --accent-sage: #5f7a6b;
-            --accent-sage-dark: #4a6154;
-            --text-coffee: #3e362e;
-            --text-muted: #7a7169;
-            --border-beige: #d4c5b3;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: #eaddca;
+            --white: #ffffff;
+            --sage: #5f7a6b;
+            --coffee: #3e362e;
+            --border: #d4c5b3;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-latte); color: var(--text-coffee); font-family: 'Inter', sans-serif; line-height: 1.6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: var(--coffee); font-family: 'Inter', sans-serif; }
 
         nav {
-            background: var(--card-white);
+            background: var(--white);
             padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-beige);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent-sage); }
-        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; margin-left: 2rem; font-weight: 600; }
-        .btn-logout { color: #d9534f !important; border: 1px solid #d9534f; padding: 5px 15px; border-radius: 50px; }
-
-        .hero-header { text-align: center; padding: 60px 20px 40px; }
-        .premium-badge {
-            display: inline-flex;
-            padding: 8px 24px;
-            border: 1.5px solid #5f7a6b;
-            border-radius: 50px;
-            background: #eaddca;
-            font-weight: 800;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .brand-huge { font-family: 'Playfair Display', serif; font-size: 5.5rem; line-height: 0.9; margin: 0; }
-        .tagline { letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; margin-top: 10px; color: var(--text-muted); }
-
-        /* FIXED STATS GRID */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             max-width: 1200px;
-            margin: 0 auto 40px;
+            margin: 40px auto;
             padding: 0 20px;
         }
 
         .stat-card {
-            background: var(--card-white);
+            background: var(--white);
             padding: 25px;
             border-radius: 20px;
             text-align: center;
-            border: 1px solid var(--border-beige);
-            min-height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
         }
 
-        .stat-window { height: 50px; overflow: hidden; position: relative; }
-        .stat-move { display: flex; flex-direction: column; transition: transform 1.5s cubic-bezier(0.33, 1, 0.68, 1); }
-        .stat-move h3 { height: 50px; line-height: 50px; font-size: 2.5rem; color: var(--accent-sage); font-weight: 800; }
-        .stat-card span { text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); }
+        .stat-card h3 { font-size: 2.5rem; color: var(--sage); margin-bottom: 5px; }
+        .stat-card span { text-transform: uppercase; font-size: 0.7rem; font-weight: 800; color: #7a7169; letter-spacing: 1px; }
 
-        .main-container {
+        .main-layout {
             display: grid;
-            grid-template-columns: 350px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 30px;
             max-width: 1200px;
-            margin: 0 auto;
+            margin: 0 auto 50px;
             padding: 0 20px;
         }
 
-        .card {
-            background: var(--card-white);
-            padding: 30px;
-            border-radius: 24px;
-            border: 1px solid var(--border-beige);
-            margin-bottom: 20px;
+        .card { background: var(--white); padding: 30px; border-radius: 24px; border: 1px solid var(--border); }
+        
+        .btn-logout { 
+            color: #d9534f; border: 1.5px solid #d9534f; 
+            padding: 6px 18px; border-radius: 50px; 
+            text-decoration: none; font-size: 0.8rem; font-weight: 700;
+            transition: 0.3s;
         }
+        .btn-logout:hover { background: #d9534f; color: white; }
 
-        .btn-primary { width: 100%; background: var(--accent-sage); color: white; padding: 14px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: left; padding: 15px; background: #f8f6f4; font-size: 0.75rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-        td { padding: 15px; border-bottom: 1px solid #f1eeeb; font-size: 0.95rem; }
-
-        .btn-delete { color: #ff4d4d; border: 1px solid #ff4d4d; padding: 5px 10px; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 700; }
-        .btn-restore { color: var(--accent-sage); border: 1.5px solid var(--accent-sage); padding: 6px 14px; border-radius: 50px; text-decoration: none; font-size: 0.75rem; font-weight: 800; }
-
-        footer { text-align: center; padding: 50px; opacity: 0.7; font-size: 0.85rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 12px; background: #f8f6f4; font-size: 0.75rem; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        
+        .badge {
+            display: inline-block; padding: 5px 15px;
+            border: 1px solid var(--sage); border-radius: 50px;
+            font-size: 0.65rem; font-weight: 800; margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="logo">📚 LIBFLOW</div>
-    <div class="nav-links">
-        <a href="{{ url_for('index') }}">Dashboard</a>
-        {% if session.get('role') == 'admin' %}
-            <a href="#">Inventory</a>
-            <a href="#">Members</a>
-        {% endif %}
-        <a href="/logout" class="btn-logout">Logout</a>
-    </div>
+    <div style="font-weight: 900; font-size: 1.2rem; color: var(--sage);">📚 LIBFLOW</div>
+    <a href="/logout" class="btn-logout">Sign Out</a>
 </nav>
 
-<div class="hero-header">
-    <div class="premium-badge">✦ {{ session.get('role') | upper }} ACCESS</div>
-    <h1 class="brand-huge">LibFlow</h1>
-    <p class="tagline">Simple • Elegant • Organized</p>
+<div style="text-align: center; padding: 60px 0 20px;">
+    <div class="badge">✦ {{ session.get('role') | upper }} PORTAL</div>
+    <h1 style="font-family: 'Playfair Display'; font-size: 4.5rem; line-height: 1;">LibFlow</h1>
+    <p style="letter-spacing: 4px; text-transform: uppercase; font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Premium Library Management</p>
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-        <span>Total Books</span>
-    </div>
-    <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ stat_2_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-        <span>{{ stat_2_label }}</span>
-    </div>
-    <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ stat_3_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-        <span>{{ stat_3_label }}</span>
-    </div>
-    <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-        <span>Available Inventory</span>
-    </div>
+    <div class="stat-card"><h3>{{ total_count }}</h3><span>Inventory Size</span></div>
+    <div class="stat-card"><h3>{{ stat_2_val }}</h3><span>{{ stat_2_label }}</span></div>
+    <div class="stat-card"><h3>{{ stat_3_val }}</h3><span>{{ stat_3_label }}</span></div>
+    <div class="stat-card"><h3>{{ total_count }}</h3><span>Active Titles</span></div>
 </div>
 
-<div class="main-container">
-    <div class="sidebar">
-     {% if session.get('role') == 'admin' %}
-    <div class="card" style="border-left: 5px solid #d4c5b3;">
-        <h2 style="font-size: 1.1rem;">🔔 Pending Requests</h2>
-        <div style="padding: 10px; background: #f9f9f9; border-radius: 12px; margin-top: 10px;">
-            <p style="font-size: 0.85rem;"><strong>Data Structures in C++</strong></p>
-            <p style="font-size: 0.7rem; color: #7a7169;">Requested by: Ayushi (Student ID: 102)</p>
-            <div style="margin-top: 10px;">
-                <button class="btn-restore" style="padding: 4px 10px; font-size: 0.65rem;">Approve</button>
-                <button class="btn-delete" style="padding: 4px 10px; font-size: 0.65rem; border-radius: 50px;">Reject</button>
+<div class="main-layout">
+    <aside>
+        {% if session.get('role') == 'admin' %}
+            <div class="card">
+                <h2 style="font-family: 'Playfair Display'; margin-bottom: 15px;">Management</h2>
+                <p style="font-size: 0.85rem; margin-bottom: 20px;">Quickly add new books to the catalog system.</p>
+                <button style="width:100%; background:var(--sage); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer;">+ New Entry</button>
             </div>
-        </div>
-    </div>
-{% endif %}
-        <div class="card" style="background: var(--accent-sage); color: white;">
-            <h2>Student Portal</h2>
-            <p style="font-size: 0.85rem; opacity: 0.9;">Welcome back. Search the catalog to find and request your next read.</p>
-        </div>
+        {% else %}
+            <div class="card" style="background: var(--sage); color: white; border: none;">
+                <h2 style="font-family: 'Playfair Display'; margin-bottom: 15px;">Welcome Back</h2>
+                <p style="font-size: 0.85rem; opacity: 0.9;">Browse the collection and request your next title directly from this panel.</p>
+            </div>
         {% endif %}
-        <div class="card" style="background: #f0f4f2;"><h2 style="font-size: 1rem;">System Health</h2><p style="font-size: 0.8rem; color: var(--text-muted);">Database: Active<br>Uptime: 99.9%</p></div>
-    </div>
-
-    <div class="content">
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px;">
-                <h2>Recent Inventory</h2>
-                <form action="/search" method="POST"><input type="text" name="search_query" placeholder="Search..." style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd;"></form>
-            </div>
-            <div class="table-container">
-                <table>
-                    <thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Action</th></tr></thead>
-                    <tbody>
-                        {% for book in books %}
-                        <tr>
-                            <td>#BK-{{ book[0] }}</td>
-                            <td><strong>{{ book[1] }}</strong></td>
-                            <td>{{ book[2] }}</td>
-                            <td>
-                             {% if session.get('role') == 'admin' %}
-    <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-delete">Archive</a>
-{% else %}
-    <a href="javascript:void(0);" onclick="sendRequest('{{ book[1] }}')" class="btn-restore">Request Issue</a>
-{% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="card" style="margin-top: 20px; background: rgba(255,255,255,0.5); border-style: dashed;">
+            <p style="font-size: 0.7rem; text-transform: uppercase; font-weight: 800; opacity: 0.5;">System Status</p>
+            <p style="font-weight: 700; color: #5f7a6b;">Connected to Cloud</p>
         </div>
-    </div>
+    </aside>
+
+    <main class="card">
+        <h2 style="font-family: 'Playfair Display';">Recent Catalog</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Info</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 700;">{{ book[1] }}</div>
+                        <div style="font-size: 0.75rem; color: #7a7169;">{{ book[2] }}</div>
+                    </td>
+                    <td>
+                        {% if session.get('role') == 'admin' %}
+                            <span style="color: #d9534f; font-weight: 700; font-size: 0.8rem; cursor: pointer;">Archive</span>
+                        {% else %}
+                            <span style="color: var(--sage); font-weight: 700; font-size: 0.8rem; cursor: pointer;">Request Issue</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
 </div>
 
-<footer>© 2026 LibFlow LMS | CCSU BCA Project</footer>
-
-<script>
-    window.addEventListener('load', () => {
-        const movers = document.querySelectorAll('.stat-move');
-        movers.forEach(mover => {
-            const target = parseInt(mover.getAttribute('data-target')) || 0;
-            const countDisplay = mover.querySelector('.counting-number');
-            setTimeout(() => {
-                mover.style.transform = 'translateY(-50px)'; 
-                let start = null; const duration = 2000;
-                function step(timestamp) {
-                    if (!start) start = timestamp;
-                    const progress = Math.min((timestamp - start) / duration, 1);
-                    const currentCount = Math.floor((1 - Math.pow(1 - progress, 4)) * target);
-                    countDisplay.innerText = currentCount.toLocaleString();
-                    if (progress < 1) window.requestAnimationFrame(step);
-                }
-                window.requestAnimationFrame(step);
-            }, 500);
-        });
-    });
-</script>
-    <script>
-function sendRequest(bookTitle) {
-    // 1. Visual Feedback
-    const btn = event.target;
-    const originalText = btn.innerText;
-    btn.innerText = "Processing...";
-    btn.style.opacity = "0.5";
-    btn.style.pointerEvents = "none";
-
-    // 2. Simulated Delay (Looks like it's talking to a server)
-    setTimeout(() => {
-        alert("Success! Request for '" + bookTitle + "' has been sent to the Librarian.");
-        btn.innerText = "Requested ✓";
-        btn.style.background = "#5f7a6b";
-        btn.style.color = "white";
-        btn.style.opacity = "1";
-    }, 800);
-}
-</script>
 </body>
 </html>
