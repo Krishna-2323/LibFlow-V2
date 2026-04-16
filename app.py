@@ -46,8 +46,10 @@ def init_db():
 
 init_db()
 
-@app.route('/')
+@app.route('/dashboard')
 def index():
+    if 'role' not in session:
+        return redirect(url_for('selection'))
     page = request.args.get('page', 1, type=int)
     selected_cat = request.args.get('cat', 'All') 
     per_page = 6
@@ -156,6 +158,25 @@ def selection():
 def logout():
     session.clear() # Clears role and user_id
     return redirect(url_for('selection'))
+    
+@app.route('/login/<role>', methods=['GET', 'POST'])
+def login(role):
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
 
+        # FOR PRESENTATION: You can hardcode a check or query your DB
+        # If querying DB: SELECT * FROM Users WHERE username=%s AND password=%s AND role=%s
+        
+        if (role == 'admin' and username == 'admin' and password == 'admin123') or \
+           (role == 'student' and username == 'student' and password == '12345'):
+            
+            session['role'] = role
+            session['user_id'] = 1 # Placeholder
+            return redirect(url_for('index'))
+        else:
+            return "Invalid Credentials! <a href='/'>Go back</a>"
+
+    return render_template('login.html', role=role)
 if __name__ == '__main__':
     app.run()
