@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LibFlow | Portal Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-latte: #eaddca;
+            --card-white: #ffffff;
+            --accent-sage: #5f7a6b;
+            --text-coffee: #3e362e;
+            --text-muted: #7a7169;
+            --border-beige: #d4c5b3;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        body {
+            background-color: var(--bg-latte);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: var(--text-coffee);
+        }
+
+        .selection-container {
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .portal-card {
+            background: var(--card-white);
+            padding: 50px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--text-coffee);
+            border: 1px solid var(--border-beige);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(62, 54, 46, 0.15);
+            border-color: var(--accent-sage);
+        }
+
+        .portal-card.admin-theme {
+            background: var(--accent-sage);
+            color: white;
+            border: none;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f8f6f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .admin-theme .icon-circle {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .portal-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .portal-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .enter-label {
+            margin-top: 25px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-sage);
+        }
+
+        .admin-theme .enter-label {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .portal-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="selection-container">
+    <h1 class="brand-logo">LibFlow</h1>
+    <p class="subtitle">Select Access Portal</p>
+
+    <div class="portal-grid">
+        <a href="/login/student" class="portal-card">
+            <div class="icon-circle">🎓</div>
+            <h2>Student</h2>
+            <p>Access the catalog, view your history, and request book issues.</p>
+            <div class="enter-label">Enter Student Suite →</div>
+        </a>
+
+        <a href="/login/admin" class="portal-card admin-theme">
+            <div class="icon-circle">🔑</div>
+            <h2>Administrator</h2>
+            <p>Manage inventory, process requests, and monitor system analytics.</p>
+            <div class="enter-label">Enter Admin Console →</div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
