@@ -147,6 +147,15 @@ def permanent_delete(id):
 def search():
     query = request.form.get('search_query')
     return redirect(url_for('index', cat=query))
+    
+@app.route('/')
+def selection():
+    return render_template('selection.html')
+    
+@app.route('/logout')
+def logout():
+    session.clear() # Clears role and user_id
+    return redirect(url_for('selection'))
 
 if __name__ == '__main__':
     app.run()
