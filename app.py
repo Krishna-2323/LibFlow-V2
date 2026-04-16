@@ -92,15 +92,20 @@ def index():
     finally:
         cursor.close()
         conn.close()
-    if session.get('role') == 'admin':
+  if session.get('role') == 'admin':
         s2_label, s2_val = "Total Members", 850
-        s3_label, s3_val = "Issued Today", issued_count
+        s3_label, s3_val = "Issued Today", issued_count # From your DB query
     else:
-        # These are hardcoded specifically for the student demo
+        # Hardcoded values for the student demo
         s2_label, s2_val = "My Borrowed Books", 2 
         s3_label, s3_val = "Pending Requests", 1
 
-    return render_template('index.html', books=active_books, archived=archived_books, total_count=total_active, page=page, total_pages=total_pages, current_cat=selected_cat, issued_today=issued_count)
+    return render_template('index.html', 
+                           # ... (Your existing variables: books, page, etc.) ...
+                           stat_2_label=s2_label, 
+                           stat_2_val=s2_val,
+                           stat_3_label=s3_label, 
+                           stat_3_val=s3_val)
 
 @app.route('/add', methods=['POST'])
 def add_book():
