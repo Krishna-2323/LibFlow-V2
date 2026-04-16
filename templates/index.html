@@ -48,6 +48,20 @@
     padding: 0 20px;
     width: 100%; /* Ensure it takes full width */
 }
+.stats-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 1fr !important; /* Forces 4 columns */
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.stat-card {
+    min-width: 0; /* Prevents cards from overflowing */
+    height: auto;
+    padding: 25px 10px;
+}
 
 .stat-card {
     background: var(--card-white);
@@ -111,12 +125,6 @@
 </div>
 
 <div class="stats-grid">
-    <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
-        <span>Total Books</span>
-    </div>
-
-  <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
         <span>Total Books</span>
