@@ -1,10 +1,13 @@
 import os
 import psycopg2 
 import mysql.connector 
-from flask import Flask, render_template, request, redirect, url_for, session # Add 'session' here
+from flask import Flask, render_template, request, redirect, url_for, session
+
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key_here'
+# This is the key that signs the session cookie
+app.secret_key = os.environ.get('SECRET_KEY', 'dev_key_123')
 
 def get_db_connection():
     db_url = os.environ.get('DATABASE_URL') 
