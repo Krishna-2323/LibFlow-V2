@@ -96,19 +96,39 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ total_count }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
         <span>Total Books</span>
     </div>
     <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ stat_2_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ stat_2_val }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
         <span>{{ stat_2_label }}</span>
     </div>
     <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ stat_3_val }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ stat_3_val }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
         <span>{{ stat_3_label }}</span>
     </div>
     <div class="stat-card">
-        <div class="stat-window"><div class="stat-move" data-target="{{ total_count }}"><h3>0</h3><h3 class="counting-number">0</h3></div></div>
+        <div class="stat-window">
+            <div class="stat-move" data-target="{{ total_count }}">
+                <h3>0</h3>
+                <h3 class="counting-number">0</h3>
+            </div>
+        </div>
         <span>Available Now</span>
     </div>
 </div>
@@ -117,6 +137,7 @@
     <div class="sidebar">
         {% if session.get('role') == 'admin' %}
         <div class="card">
+            <a href="/vault" style="float:right; font-size:0.7rem; font-weight:800; color:var(--accent-sage); text-decoration:none;">VAULT 🔒</a>
             <h2 style="font-family: 'Playfair Display'; margin-bottom: 20px;">Quick Actions</h2>
             <form action="/add" method="POST">
                 <div style="margin-bottom: 20px;">
@@ -152,35 +173,34 @@
                 <thead>
                     <tr><th>Book Details</th><th>Action</th></tr>
                 </thead>
-              <tbody>
-    {% for book in books %}
-    <tr>
-        <td>
-            <div style="font-weight: 800; font-size: 1.05rem;">{{ book[1] }}</div>
-            <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">By {{ book[2] }}</div>
-        </td>
-        <td>
-            {% if session.get('role') == 'admin' %}
-                <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-action" style="color: #ff4d4d; border-color: #ff4d4d; text-decoration: none;">Archive</a>
-            {% else %}
-                <button onclick="handleRequest('{{ book[1] }}')" class="btn-action">Request Issue</button>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+                <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 800; font-size: 1.05rem;">{{ book[1] }}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">By {{ book[2] }}</div>
+                    </td>
+                    <td>
+                        {% if session.get('role') == 'admin' %}
+                            <a href="{{ url_for('archive_book', id=book[0]) }}" class="btn-action" style="color: #ff4d4d; border-color: #ff4d4d; text-decoration: none;">Archive</a>
+                        {% else %}
+                            <button onclick="handleRequest('{{ book[1] }}')" class="btn-action">Request Issue</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
 
-    {# Only show this if the database is literally empty #}
-    {% if not books %}
-    <tr>
-        <td colspan="2" style="text-align: center; padding: 40px; color: var(--text-muted);">
-            No books found in inventory. 
-            {% if session.get('role') == 'admin' %} 
-                Add one using the sidebar! 
-            {% endif %}
-        </td>
-    </tr>
-    {% endif %}
-</tbody>
+                {% if not books %}
+                <tr>
+                    <td colspan="2" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                        No books found in inventory. 
+                        {% if session.get('role') == 'admin' %} 
+                            Add one using the sidebar! 
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
             </table>
         </div>
     </div>
@@ -195,12 +215,16 @@
         movers.forEach(mover => {
             const target = parseInt(mover.getAttribute('data-target')) || 0;
             const countDisplay = mover.querySelector('.counting-number');
+            
             setTimeout(() => {
                 mover.style.transform = 'translateY(-50px)'; 
-                let start = null; const duration = 2000;
+                let start = null; 
+                const duration = 2000;
+                
                 function step(timestamp) {
                     if (!start) start = timestamp;
                     const progress = Math.min((timestamp - start) / duration, 1);
+                    // Easing function for smooth stop
                     const currentCount = Math.floor((1 - Math.pow(1 - progress, 4)) * target);
                     countDisplay.innerText = currentCount.toLocaleString();
                     if (progress < 1) window.requestAnimationFrame(step);
